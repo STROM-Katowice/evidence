@@ -5,10 +5,10 @@ node_modules
 # See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
 # Compiled output
-/frontend/dist
+/frontend/.vscode
 /frontend/tmp
 /frontend/out-tsc
-/frontend/bazel-out
+/frontend/.editorconfig
 
 # Node
 /frontend/node_modules
