@@ -1,0 +1,51 @@
+<div class="kolega">
+    <img class="photo" (click)="img=true" [attr.src]="dataService.employees[id].img">
+    @if( img ){
+        <label class="nImg"> Adres URL awatara: <input #image (change)="balls(image, 'img'); img=false" [attr.value]="dataService.employees[id].img"></label>
+    }@else{
+        <label>Imię i Nazwisko: <input #name (change)="balls(name, 'name')" class="personData" [attr.value]="dataService.employees[id].name"></label>
+        <label>Stanowisko: <input #func (change)="balls(func, 'position')" class="personData" [attr.value]="dataService.employees[id].position"></label>
+        <label>Nr telefonu: <input #tel (change)="balls(tel, 'tel')" class="personData" [attr.value]="dataService.employees[id].tel"></label>
+        <label>Uprawnienia: <input #obj (change)="balls(obj, 'places')" class="personData" [attr.value]="dataService.employees[id].place"></label>
+        <label>Kwalifikacje: <input  #qual (change)="balls(qual, 'qualifications')" class="personData" [attr.value]="dataService.employees[id].qualifications"></label>
+        <!--ODZNAKI!-->
+        <div class="flex">
+            <button class="btt" (click)="rfid=true">Zarządzaj kartami&nbsp;RFID</button>
+            @if( dataService.employees[id].name!="Jan Walecki" ){
+            <button class="btt btK" (click)="sqid=true">△ SQID GAME ◻</button>
+            }
+        </div>
+        <input class="notes" #notes (change)="balls(notes, 'notes')" placeholder="Notatki" [attr.value]="dataService.employees[id].notes">
+    }
+</div>
+@if( sqid ){
+<div class="sqidGame">
+    <img class="game" src="./assets/sqid.png">
+    <img class="doll" src="./assets/sqiddoll.png">
+    <img class="loser" [attr.src]="dataService.employees[id].img">
+    <div class="qt">
+        <p>Wyeliminować zawodnika<br>{{dataService.employees[id].name}}?</p>
+        <div class="flex">
+            <button (click)="eliminate()">예 <span class="micro">(tak)</span></button>
+            <button (click)="sqid=false">아니요 <span class="micro">(nie)</span></button>
+        </div>
+    </div>
+</div>
+}
+
+@if( rfid ){
+<div class="RFID">
+    @if( dataService.employees[id].id!=0 ){
+        <div class="card">
+            <img class="photo" src="dataService.employees[id].photo">
+            <p>{{ dataService.employees[id].name }}</p>
+            <p>{{ dataService.employees[id].id }}</p>
+            <img class="cardLogo" src="./assets/logo.png">
+        </div>
+        <button class="btt" (click)="delCard()">Usuń identyfikacyjną kartę pracowniczą</button>
+    }@else{
+        <button class="btt" (click)="addCard()">Nada identyfikacyjną kartę pracowniczą</button>
+    }
+    <button class="btt bgRed" (click)="rfid=false">Wyjdź</button>
+</div>
+}

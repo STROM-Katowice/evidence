@@ -1,0 +1,13 @@
+<div class="block">
+@for ( item of dataService.stock[id-1].val; track item; let idx=$index){
+    <div class="shelf" (click)="f=!f">
+        <img class="ilustration" [src]="item.img" [class]="item.status!=1 ? 'monochrome' : ''">
+        <span>{{item.owner}}</span>
+        <span class="font-red">{{convert(item.stamp)}}</span>
+        <span class="name">{{item.name}}</span>
+    </div>
+    <div class="colorTag" [class]="item.status!=1 ? 'bgRed' : 'bgGreen' "></div>
+    @if ( f==true ){  <!--//huh?-->
+        <app-details id="1"></app-details>
+    }
+}

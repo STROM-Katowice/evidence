@@ -1,0 +1,59 @@
+<div class="header">
+    <div class="menu-item" (click)="v=0" [class]="v==0 ? 'bdBtmBlue' : ''">
+        <span>Regały</span>
+    </div>
+    <div class="menu-item" (click)="v=4" [class]="v==4 ? 'bdBtmBlue' : ''">
+        <span>Tagi</span>
+    </div>
+    <div class="menu-item" (click)="v=1" [class]="v==1 ? 'bdBtmBlue' : ''">
+        <span>Ludzie</span>
+    </div>
+    <div class="menu-item" (click)="v=2" [class]="v==2 ? 'bdBtmBlue' : ''">
+        <span>Zdarzenia</span>
+    </div>
+    <div class="menu-item" (click)="v=3" [class]="v==3 ? 'bdBtmBlue' : ''">
+        <span>Ustawienia</span>
+    </div>
+
+    <app-search class="grow"></app-search>
+    <div class="account" (click)="a=!a">
+        <img [attr.src]="dataService.account.img">
+        Deweloper
+    </div>
+    @if( a ){
+        <div class="acc-details">Element twoje konto w budowie</div>
+    }
+</div>
+
+@if(v==0){
+@for( regal of dataService.stock; track regal.id ){
+<app-regal  class="main" [attr.width]="regal.width"
+            [attr.height]="regal.height"
+            [attr.x]="regal.x"
+            [attr.y]="regal.y"></app-regal>
+}
+}
+
+@if(v==1){
+    <div class="container">
+    @for( person of dataService.employees; track person; let idx=$index){
+        <app-people [id]="idx"></app-people>
+    }
+    </div>
+    <div class="add" (click)="addNew()"><span>+</span></div>
+}
+
+@if(v==2){
+<app-events></app-events>
+}
+
+@if(v==3){
+<app-settings></app-settings>
+}
+
+@if(v==4){
+<!--<app-tags></app-tags>-->
+}
+    
+
+<div class="footer" (click)="gtfo()">© Strom Katowice {{getYear()}}</div>

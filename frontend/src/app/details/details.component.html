@@ -1,0 +1,21 @@
+<div class="details">
+  <span>Nazwa</span>
+  <input><input type="button" value="Zmień">
+
+  <span>Obrazek</span>
+  <input><input type="button" value="Zmień">
+
+
+  <span>Uprawnienia</span>
+  <select>
+        @for( person of dataService.employees; track person ){
+        <option>{{person.name}}</option>
+        }
+  </select>
+  <input type="button" value="Dodaj">
+  <input type="button" value="Oznacz jako zabrane">
+  <input type="button" value="Oznacz jako skradzione">
+  <div>
+      Zdarzenia
+  </div>
+</div>

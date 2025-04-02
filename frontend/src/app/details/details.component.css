@@ -1,0 +1,13 @@
+.details{
+    position: fixed;
+    left: 50%;
+    top:50%;
+    width: 50vw;
+    height: 50vw;
+    min-width: 5cm;
+    min-height: 5cm;
+    transform: translate(-50%, -50%);
+    border: 4px solid #000;
+    background-color: #FFF;
+    z-index: 999;
+}
