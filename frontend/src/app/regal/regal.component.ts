@@ -9,12 +9,24 @@ import { DetailsComponent } from '../details/details.component';
   styleUrl: './regal.component.css'
 })
 export class RegalComponent {
-  @Input() id = 1;
-  
-  constructor(public dataService: DataService){}
+  @Input() id:number=0;
+  @Input() sitename:string="Firma";
+
+  constructor(public dataService: DataService){
+  }
   
   f=false;
   ngOnInit(){
+  }
+  edit(){
+    if(this.f){
+      this.f=false;
+      this.dataService.edit=false;
+      this.dataService.stock=this.dataService.toEdit.stock;
+    }else{
+      this.f=true;
+      this.dataService.edit=true;
+    }
   }
 
   updateImg(newUrl:any, v:number){
@@ -23,6 +35,12 @@ export class RegalComponent {
   }
 
   convert(dat:  number ){
-    return new Date(dat).toLocaleDateString("pl-PL")+"\n"+new Date(dat).toLocaleTimeString("pl-PL");
+    const d=new Date(dat);
+    let ds=d.getDate()+".";
+    if(d.getMonth()+1<10) ds+="0";
+    ds+=d.getMonth()+1+" "+d.getHours()+":";
+    if(d.getMinutes()<10) ds+="0";
+    ds+=d.getMinutes()+1
+    return ds;
   }
 }

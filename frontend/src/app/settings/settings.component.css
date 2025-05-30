@@ -1,0 +1,23 @@
+.group{
+    padding: 0.3cm;
+    border: 3px solid #000;
+    border-radius: 0.25cm;
+    display: flex;
+    flex-direction: row;
+}
+
+.group-color{
+    height: 0.6cm;
+    width: 0.6cm;
+    background-color: #ffe600;
+    margin-right: 0.3cm;
+}
+
+.name{
+    margin-right: 0.3cm;
+}
+
+.sets{
+    display: flex;
+    flex-direction: column;
+}

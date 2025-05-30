@@ -1,12 +1,12 @@
 <div class="kolega">
-    <img class="photo" (click)="img=true" [attr.src]="dataService.employees[id].img">
+    <img class="photo" (click)="img=!img" [attr.src]="dataService.employees[id].img">
     @if( img ){
         <label class="nImg"> Adres URL awatara: <input #image (change)="balls(image, 'img'); img=false" [attr.value]="dataService.employees[id].img"></label>
     }@else{
         <label>Imię i Nazwisko: <input #name (change)="balls(name, 'name')" class="personData" [attr.value]="dataService.employees[id].name"></label>
         <label>Stanowisko: <input #func (change)="balls(func, 'position')" class="personData" [attr.value]="dataService.employees[id].position"></label>
         <label>Nr telefonu: <input #tel (change)="balls(tel, 'tel')" class="personData" [attr.value]="dataService.employees[id].tel"></label>
-        <label>Uprawnienia: <input #obj (change)="balls(obj, 'places')" class="personData" [attr.value]="dataService.employees[id].place"></label>
+        <label>Uprawnienia i grupy: <input #obj (change)="balls(obj, 'places')" class="personData" [attr.value]="dataService.employees[id].place"></label>
         <label>Kwalifikacje: <input  #qual (change)="balls(qual, 'qualifications')" class="personData" [attr.value]="dataService.employees[id].qualifications"></label>
         <!--ODZNAKI!-->
         <div class="flex">

@@ -1,11 +1,8 @@
 <div class="details">
-  <span>Nazwa</span>
-  <input><input type="button" value="Zmień">
-
-  <span>Obrazek</span>
-  <input><input type="button" value="Zmień">
-
-
+  <label>Nazwa: <input #name (change)="ch(name, 'name')" class="itemData" [attr.value]="item.name"></label>
+  <label>Zwrot po max
+     <input #func (change)="ch(func, 'absence')" class="personData" [attr.value]="item.maxabsence"></label>
+  
   <span>Uprawnienia</span>
   <select>
         @for( person of dataService.employees; track person ){
@@ -13,9 +10,25 @@
         }
   </select>
   <input type="button" value="Dodaj">
+  <div class="imgSelect">
+  @for(img of imgs; track img; let idx=$index){
+    <img [attr.class]="(idx==selImg ? 'bdBlue' : '') +' imgSelect-img'" (click)="selImg=idx" [attr.src]="img">
+  }
+  </div>
   <input type="button" value="Oznacz jako zabrane">
   <input type="button" value="Oznacz jako skradzione">
-  <div>
-      Zdarzenia
+  <div class="events">
+      <h4>Zdarzenia</h4>
+      <!--@for(event of eventService.select("item", item.name); track $index ){
+        <div class="eventBar">
+          <span>$index</span>
+          <span>event.description</span>
+          <span>event.time</span>
+          <span>event.person</span>
+          <span>event.severity</span>--
+          <span>event.camera</span>
+          <button title="wymaż">x</button>
+        </div>
+      }-->
   </div>
 </div>

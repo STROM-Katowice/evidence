@@ -3,24 +3,26 @@
     border-right: 5px solid #121212;
     padding-bottom: 35px;
     display: grid;
+    
 }
 .shelf{
     border-bottom: 4px solid #241010;
     min-width: 100px;
-    height: 8.5vh;
-    min-height: 50px;
-    width: max(25vh, 120px);
+    height: 8vh;
+    min-height: 45px;
+    width: max(23vh, 110px);
     text-align: center;
-    padding: 0.5vh;
+    padding: 0.6vh;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 2fr;
     font-size: max(1.5vh, 10px);
 
 }
 .ilustration{
     grid-row-start: 1;
-    grid-row-end: 3;
+    grid-row-end: 4;
     height: 7vh;
+    width: 7vh;
     min-height: 40px;
 }
 .monochrome{
@@ -30,12 +32,9 @@
     width:2vh;
     height:2vh;
     position: relative;
-    bottom: 19px;  
+    bottom: calc( 2vh + 4px );
+    right:0;
     margin-bottom: -2vh;
-}
-.name{
-    grid-column-start: 1;
-    grid-column-end: 3;
 }
 .edit{
     position: fixed;
@@ -43,4 +42,10 @@
     height: 25px;
     font: 18px;
     border: 2px solid green;
+}
+.offline{
+    font-size: 3vh;
+    font-weight: bold;
+    text-align: center;
+    margin-top: -2.5vh;
 }

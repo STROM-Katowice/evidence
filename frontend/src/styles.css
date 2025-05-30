@@ -11,13 +11,6 @@
     user-select: none;
 }
 
-.main{
-    position:fixed;
-    display: grid;
-    top:6vh;
-    left: 6vh;
-}
-
 .bgRed{
     background-color: #ED1212 !important;
 }
@@ -41,8 +34,17 @@
 }
 .bdBtmOrange{
     border-bottom-color: #ee6d17 !important;
-}.bdBtmBlue{
+}
+.bdBtmBlue{
     border-bottom: 4px solid #0c4585 !important;
+}
+
+.bdBlue{
+  border: 4px solid #0c4585 !important;
+  margin: -4px;
+}
+.fontRed{
+  color: #ED1212 !important;
 }
 
 .grow{
@@ -67,3 +69,136 @@ input{
 .micro{
     font-size: 1vh;
 }
+
+.container{
+    display: flex;
+    flex-direction: row;
+    min-height: 96.8vh;
+}
+
+.menu{
+    width: 4.5cm;
+    display: flex;
+    flex-direction: column;
+    border-right: 3px solid #0c4585;
+    min-height: 92.8vh;
+    padding: 0.25cm;
+    padding-top: 0.5cm;
+}
+
+.left-item{
+  padding: 0.2cm 0.25cm;
+  margin: 0 0.2cm;
+  color: #ebebeb;
+  border-radius: 0.1cm;
+}
+
+.left-item:hover{
+  background-color: #9e9e9e;
+}
+
+.content{
+  padding: 0.4cm;
+}
+
+
+.add{
+  position: fixed;
+  right: 0.8cm;
+  bottom: 1.1cm;
+  font-size: 1.25cm;
+  color: white;
+  text-align: center;
+  width: 1.5cm;
+  height: 1.5cm;
+  border-radius: 5px;
+  background-color: #07b816;
+  border: 4px solid #05670d;
+  cursor: copy;
+}
+
+.number{
+  width: 1cm;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+   -moz-appearance: textfield;
+}
+
+.blink{
+  animation-name: blink;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+}
+
+/*checkboxes*/  
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 1.07cm;
+    height: 0.6cm;
+    margin: 0.1cm;
+  }
+  
+  /*.switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }*/
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s cubic-bezier(0,1,0.5,1);
+    border-radius: 4px;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 0.4cm;
+    width: 0.4cm;
+    left: 0.1cm;
+    bottom: 0.1cm;
+    background-color: white;
+    transition: .4s cubic-bezier(0,1,0.5,1);
+    border-radius: 3px;
+  }
+  
+  input:checked + .slider:before {
+    transform: translateX(0.45cm);
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
+
+  input:checked + .slider.blue {
+    background-color: #424bf5;
+  }
+
+
+  @keyframes blink{
+    0%{
+      opacity: 1;
+    }
+    50%{
+      opacity: 0;
+    }
+  }

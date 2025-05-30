@@ -1,7 +1,6 @@
 .header{
     display: flex;
     flex-direction: row;
-    height: 3.2vh;
     max-height: 40px;
     min-height: 18px;
     background-color: #0c0824;
@@ -10,12 +9,12 @@
 }
 
 .menu-item{
-    min-width: 100px;
-    width: 5vh;
-    font-size: max(2vh, 12px);
+    min-width: 3cm;
+    font-size: max(1.8vh, 0.2cm);
     cursor: pointer;
     text-align: center;
     border-bottom: 4px;
+    padding: 0 0.1cm;
 }
 /*
 .menu-item::after{
@@ -33,10 +32,10 @@
 }
 
 .account{
-    font-size: 2vh;
+    font-size: max(1.8vh, 0.2cm);
     border-bottom: 2px solid #0c4585;
     padding-right: 5px;
-    max-width: 130px;
+    max-width: 14vw;
     text-align: center;
     display: flex;
 }
@@ -48,32 +47,21 @@
     bottom: 0;
     padding: 3px 7px 3px 4px;
     font-size: 1.5vh;
+    cursor: alias;
+}
 
+.main{
+    position: relative;
+    display: inline-block;
+    width: fit-content;
 }
 
 .container{
-    left: 2vw;
-    top: 6vh;
-    position: absolute;
-}
-
-.add{
-    position: fixed;
-    right: 0.8cm;
-    bottom: 1.1cm;
-    font-size: 1.25cm;
-    color: white;
-    text-align: center;
-    width: 1.5cm;
-    height: 1.5cm;
-    border-radius: 5px;
-    background-color: #07b816;
-    border: 4px solid #05670d;
-    cursor: copy;
+    flex-direction: column;
+    padding: 2vw;
 }
 
 .account img{
-    height: 3.2vh;
     max-width: 4.5vh;
     padding-right: 5px;
 }
@@ -86,4 +74,27 @@
     height: 150px;
     background-color: black;
     color: white;
+    z-index: 1000;
+}
+
+.canvas{
+    margin: 2vh 4vh 0 4vh;
+    display: flex;
+}
+.siteBar{
+    margin: 3vh 4vh;
+    display: flex;
+}
+
+.siteSelect{
+    font-size: 2vh;
+    min-width: min(92vw, 9vh);
+    border: 3px solid #0c0824;
+}
+
+.siteData{
+    display: flex;
+    flex-direction: column;
+    font-size: 1.5vh;
+    margin-left: 1vh;
 }

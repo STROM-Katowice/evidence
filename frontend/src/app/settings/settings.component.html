@@ -1,1 +1,51 @@
-<p>Element ustawienia w budowie</p>
+<div class="container">
+    <div class="menu">
+        <span class="left-item" (click)="s=0">Ogólne</span>
+        <span class="left-item" (click)="s=1">Grupy</span>
+        <span class="left-item" (click)="s=2">Kwalifikacje</span>
+    </div>
+    <div class="content">
+        @if( s==0 ){
+            <div class="sets">
+                <div>
+                    <label class="switch">
+                        <input [attr.checked]="dataService.settings.multiobject" #mo type="checkbox" (change)="dataService.settings.multiobject=mo.checked;">
+                        <span class="slider blue"></span>
+                    </label>
+                    Połącz z innymi obiektami
+                </div>
+                <div>
+                    <label class="switch">
+                        <input [attr.checked]="dataService.settings.ilustrator" #ilustrator type="checkbox" (change)="dataService.settings.ilustrator=ilustrator.checked;">
+                        <span class="slider blue"></span>
+                    </label>
+                    Automatycznie wyszukaj odpowiednie ilustracje urządzeń na regałach
+                </div>
+            </div>
+        }
+        @if( s==1 ){
+            <div> <!--FIXME!!!
+                !--@for( group of dataService.dataArrays.groups; track group.id ){
+                    <div class="group">
+                        <div class="group-color" ></div>
+                        <input class="name" [attr.value]="group.name">
+                        <div class="number">
+                            <span class="decrement">-</span>
+                            <input #num class="number" type="number" [attr.value]="group.priority" (change)="dataService.update(num.value)">
+                            <span class="increment">+</span>
+                        <div>
+                        <button class="deleteThing">x</button>
+                    </div>
+                }-->
+            </div>
+            <div class="add" (click)="dataService.addNew('Group')"><span>+</span></div>
+        }
+        @if( s==2 ){
+            <div>
+                
+                Połącz z innymi obiektami
+            </div>
+            <div class="add" (click)="dataService.addNew('Quals')"><span>+</span></div>
+        }
+    </div>
+</div>

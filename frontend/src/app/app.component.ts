@@ -6,10 +6,11 @@ import { SearchComponent } from './search/search.component';
 import { PeopleComponent } from './people/people.component';
 import { EventsComponent } from './events/events.component';
 import { SettingsComponent } from './settings/settings.component';
+import { SitesComponent } from './sites/sites.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RegalComponent, SearchComponent, PeopleComponent, EventsComponent, SettingsComponent],
+  imports: [RegalComponent, SitesComponent, SearchComponent, PeopleComponent, EventsComponent, SettingsComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -17,25 +18,29 @@ export class AppComponent {
   title = 'ANTYCYGAN';
   v=0;
   a=false;
+  workhorse:any=[];
+  site:any={};
+  ngOnInit(){
+    setTimeout(()=>{
+      this.changeSite("0");
+    }, 1500);  //nie usuwać set timeout
+  }
+  changeSite(nid:string){
+    this.site=this.dataService.dataArrays.sites[nid];
+    if(typeof this.dataService.stock[this.site.name]=="undefined")
+      this.workhorse=[];
+    else
+      this.workhorse=this.dataService.stock[this.site.name];
+    console.log(this.workhorse);
+  }
 
   gtfo(){
-    location.href='https://strom.katowice.pl';
+    location.href='http://strom.katowice.pl';
   }
   getYear(){
     const d=new Date();
     return d.getFullYear();
   } 
-  async addNew(){
-    const r=await fetch('http://localhost:3000/newEmployee', {
-      method: "POST",
-      body: JSON.stringify({})
-    });
-    if(r.status==200){  //TODO: !!!
-      const k=await r.json();
-      this.dataService.employees.push({ id: k.id, img: './assets/amogus.png' });
-    }else{
-      console.log("ERROR! "+r.status);
-    }
-  }
+  
   constructor(public dataService: DataService){}
 }

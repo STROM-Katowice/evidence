@@ -2,6 +2,7 @@ import ModbusRTU from "modbus-serial";
 import express from "express";
 import cors from 'cors';
 import mysql from 'mysql';
+import gis from 'async-g-i-s';
 import auth from './auth.json' with {type: 'json'};
 
 const dtb = mysql.createPool(auth.database);
@@ -18,41 +19,70 @@ async function DB(query){
 
 const client = new ModbusRTU();
 const app = express();
-let slaves=[];
+let slaves=await getDB();
 let stamp=0;
 let changed=1;
 let sym=0;
+
+    //const sites=await DB(`SELECT * FROM sites`);
+    const sites=[
+        {
+            id: 0,
+            name: "Firma",
+            last: "Jan Walecki",
+            we: "10:11",
+            wy: "10:13"
+        },
+        {
+            id: 1,
+            name: "Zdzieszowice",
+            last: "Janek Surmacz",
+            we: "7:44",
+            wy: "7:55"
+        },
+        {
+            id: 2,
+            name: "Koksownia Przyjaźń",
+            last: "Mateusz Cyran",
+            we: "13:44",
+            wy: "0"
+        }
+    ]
 try{
-    await client.connectRTUBuffered("COM8", { baudRate: 9600 });
+    await client.connectRTUBuffered("COM3", { baudRate: 9600 });
 }catch(e){
     console.log("Magistala MODBUS nie podłączona prawidłowo!\nSerwer działa w trybie symulacji!");
+    for(const slave of slaves) slave.status=404;
     sym=1;
 }
-slaves=await getDB();
 //dtb.destroy();
 x();
 
 async function x(){
-    if(sym!=1){
+    if(sym==1) return;
+    console.log("Liczba slavów w DB: "+slaves.length);
     while(1){
         await discoverNew();
-        slaves.forEach(async slave => { await ask(slave); });
-        await delay(3000);
+        for(const slave of slaves) if(slave.status!=404) await ask(slave);
+        await delay(5000);
         //cycle time measurment
-    }
     }
 }
 
 async function readInputs(id){
+    return await new Promise(async resolve => {
     try{
         client.setID(id);
-        let val =  await client.readInputRegisters(8, 8);
-        return val.data;
+        const w=setTimeout(()=>{ resolve(7); }, 2000);
+        let val=await client.readInputRegisters(8, 8);
+        clearTimeout(w);
+        resolve(val.data);
     }catch(e){
         console.log("ERROR!!!!");
         console.log(e);
+        resolve(8);
     }
-    return;
+    });
 }
 
 async function delay(time){
@@ -84,21 +114,29 @@ function updateDB(table, crit, val){
 
 async function ask(slave){
     const val=await readInputs(slave.mID);
-    if(val=="ERROR") panic(slave);
+    if(val==8) panic(slave);
+    if(val==7){
+        console.log("Timeout! Prawdopodobny brak jednego z urządzeń modbus. mID="+slave.mID);
+        if(slave.status<105) slave.status++;
+        else slave.status=404;
+        return;
+    }else{
+        if(slave.status<404) slave.status--;
+    }
+    
     for(let i=0; i<8; i++){
         if(slave.val[i].status!=val[i]){
-            if(val[i]==0 && slave.val[i].status!=100){ 
+            if(val[i]==0 && slave.val[i].status>200){ 
                 slave.val[i].stamp=Date.now();
-                slave.val[i].owner="Janek";
+                slave.val[i].owner=sites[slave.location].last;
             }
             slave.val[i].status=val[i]
             changed=1;
+            console.log("ZMIANA! (kod 200) dla mID="+slave.mID+": "+val);
         }
     }
-    if(!changed) console.log("code 304 :)");
-    else console.log("code 200 ->");
+    return;
     //updateDB('slaves', slave.id, val);
-
 }
 
 async function checkout(){
@@ -117,8 +155,8 @@ async function discoverNew(){
         if(r!=null){
             const newDevice=r.data;
             const sr=isRegisterd(newDevice[0]);
+            let mID=slaves.length+1;
             if(sr.is) mID=sr.id;
-            else mID=slaves.length+1;
             console.log("New slave detected. Unique id="+newDevice[0]+"\nAttempting to assign modbus id="+mID);
             await client.writeRegisters(6, [mID , newDevice[0]]);
             await delay(500);
@@ -131,13 +169,17 @@ async function discoverNew(){
                     uID: newDevice[0],
                     height: newDevice[2],
                     width: newDevice[1],
+                    status: 200,
                     x: newDevice[3],
                     y: newDevice[4],
-                    model: newDevice[5],    //TYP: number, docelowo string    
+                    model: newDevice[5],    //TYP: number, docelowo string   
+                    location: 0, 
                     val: fillvals(8)     //docelowo x*y
                 }
-                slaves.push(slave);
-                insertDB('slaves', slave);
+                if(!sr.is){
+                    insertDB('slaves', slave);
+                    slaves.push(slave);
+                }
                 discoverNew();
             }else{  //PANIC
                 console.log("Błąd podczas uzgadniania adresu modbus urządzenia "+newDevice[0]);
@@ -151,15 +193,16 @@ async function discoverNew(){
 }
 
 function isRegisterd(uID){
-    slaves.forEach(el => {
-        if(el.uID==uID){
+    for(const slave of slaves){
+        if(slave.uID==uID){
             const k={
                 is: true,
-                id: el.mID
+                id: slave.mID
             }
+            slave.status=200;
             return k;
         }
-    });
+    }
     return { is: false };
 }
 
@@ -171,6 +214,7 @@ async function getDB(){
     const r=await DB(`SELECT * FROM slaves`);
     r.forEach(el => {
         el.val=fillvals(8);
+        el.location=0;
         el.status=100;
     });
     return r;
@@ -183,7 +227,7 @@ function fillvals(){
         vals[i]={
             id: i+delta,
             status: 100,
-            img: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fstatic.wikia.nocookie.net%2Famogus%2Fimages%2Fc%2Fcb%2FSusremaster.png%2Frevision%2Flatest%3Fcb%3D20210806124552&f=1&nofb=1&ipt=5f6710b222ea645b17ee7ecaa4faa535b96f44e6e28a2f012a212ac133fce8b5&ipo=images',
+            img: './assets/noimage.png',
             name: '-',
             owner: '-----',
             stamp: Date.now()
@@ -206,7 +250,11 @@ app.get('/busData', (req, res) => {
     if(changed==1 || req.query.stamp!=Math.floor(stamp/1000)){
         console.log(req.query.stamp);
         console.log(Math.floor(stamp/1000));
-        res.send(slaves);
+        let k={};
+        
+        res.send({
+            "Firma": slaves
+        });
         stamp=Date.now();
         changed=0;
     }else{
@@ -219,6 +267,20 @@ app.get('/pracownicy', async (req, res) => {
     res.send(koledzy);
 });
 
+app.get('/qualifications', async (req, res) => {
+    const qual=await DB(`SELECT * FROM qualifications`);
+    res.send(qual);
+});
+
+app.get('/sites', async (req, res) => {
+    res.send(sites);
+});
+
+app.get('/groups', async (req, res) => {
+    const groups=await DB(`SELECT * FROM groupss`);
+    res.send(groups);
+});
+
 app.post('/delete', async (req, res) => {
     console.log(req.body.id);
     const koledzy=await DB(`DELETE FROM employees WHERE id=${req.body.id}`);
@@ -226,7 +288,7 @@ app.post('/delete', async (req, res) => {
 });
 
 app.post('/newEmployee', async (req, res) => {
-    const koledzy=await DB(`INSERT INTO employees (id, name, position, places, qualifications, notes, tel, img) VALUES (null, '', '', '', '', '', '', './assets/amogus.png')`);
+    const koledzy=await DB(`INSERT INTO employees (id, name, position, places, qualifications, notes, tel, img) VALUES (null, '', '', '', '', '', '', 'https://t3.ftcdn.net/jpg/03/53/11/00/360_F_353110097_nbpmfn9iHlxef4EDIhXB1tdTD0lcWhG9.jpg')`);
     console.log(koledzy);
     res.send({ id: koledzy.insertId });
 });
@@ -234,6 +296,31 @@ app.post('/newEmployee', async (req, res) => {
 app.post('/employeeUpdate', async (req, res) => {
     const koledzy=await DB(`UPDATE employees SET ${req.body.field}='${req.body.val}' WHERE id=${req.body.id}`);
     res.send({ rg: "fegelein!" });
+});
+
+function selectImg(imgs){
+    let possibles=[];
+    for(const img of imgs){
+        if(img.width<img.height*1.2 && img.width>img.height*0.8)
+            possibles.push(img.url);
+    }
+    console.log(possibles.length);
+    if(possibles.length>9) return possibles.splice(0,9);
+    else if(possibles.length!=0) return possibles;
+    else return ['https://en.wiktionary.org/wiki/amogus'];
+}
+
+app.post('/updateItem', async (req, res) => {
+    let selected='', m='';  
+    if(req.body.field=="name"){
+        const imgs=await gis(req.body.val);
+        selected=selectImg(imgs);
+        console.log(selected);
+        //m=`, img='${selected}'`;    meh
+    }
+    const itemki=await DB(`UPDATE items SET ${req.body.field}='${req.body.val}'${m} WHERE id=${req.body.id}`);
+    console.log(itemki);
+    res.send({ status: 100, img:selected });
 });
 
 app.get('/test', (req, res) => {

@@ -1,9 +1,14 @@
 {
   "type": "module",
   "dependencies": {
+    "async-g-i-s": "^1.5.5",
+    "axios": "^1.9.0",
     "cors": "^2.8.5",
     "express": "^4.21.2",
+    "fs": "^0.0.1-security",
     "modbus-serial": "^8.0.19",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "node-hid": "^3.1.2",
+    "querystring": "^0.2.1"
   }
 }

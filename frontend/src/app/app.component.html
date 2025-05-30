@@ -2,12 +2,14 @@
     <div class="menu-item" (click)="v=0" [class]="v==0 ? 'bdBtmBlue' : ''">
         <span>Regały</span>
     </div>
-    <div class="menu-item" (click)="v=4" [class]="v==4 ? 'bdBtmBlue' : ''">
-        <span>Tagi</span>
-    </div>
     <div class="menu-item" (click)="v=1" [class]="v==1 ? 'bdBtmBlue' : ''">
         <span>Ludzie</span>
     </div>
+    @if( dataService.settings.multiobject ){
+    <div class="menu-item" (click)="v=4" [class]="v==4 ? 'bdBtmBlue' : ''">
+        <span>Obiekty</span>
+    </div>
+    }
     <div class="menu-item" (click)="v=2" [class]="v==2 ? 'bdBtmBlue' : ''">
         <span>Zdarzenia</span>
     </div>
@@ -26,12 +28,30 @@
 </div>
 
 @if(v==0){
-@for( regal of dataService.stock; track regal.id ){
-<app-regal  class="main" [attr.width]="regal.width"
-            [attr.height]="regal.height"
-            [attr.x]="regal.x"
-            [attr.y]="regal.y"></app-regal>
-}
+    <div class="siteBar">
+        <select #sselect class="siteSelect" (change)="changeSite(sselect.value)">
+            @for( lsite of dataService.dataArrays.sites; track lsite.name; let idx=$index){
+                <option class="siteOption" [attr.value]="idx">{{lsite.name}}</option>
+            }
+        </select>
+        <div class="siteData">
+            @if( site.wy=="0" ){
+                <span>TERAZ: {{ site.last }}</span>
+                <span>Wejście: {{ site.we }}</span>
+            }
+            @else{
+                <span>Ostatnia osoba: {{ site.last }}</span>
+                <span>Wyjście: {{ site.wy }}</span>
+            }
+        </div>
+    </div>
+    <div class="canvas">
+    @for( regal of workhorse; track regal.mID; let idx=$index){
+        
+    <app-regal [id]="idx" [sitename]="site.name" class="main" [attr.width]="regal.width" [attr.height]="regal.height"
+                [attr.x]="regal.x" [attr.y]="regal.y"></app-regal>
+    }
+    </div>
 }
 
 @if(v==1){
@@ -40,7 +60,7 @@
         <app-people [id]="idx"></app-people>
     }
     </div>
-    <div class="add" (click)="addNew()"><span>+</span></div>
+    <div class="add" (click)="dataService.addNew('Employee')"><span>+</span></div>
 }
 
 @if(v==2){
@@ -52,8 +72,8 @@
 }
 
 @if(v==4){
-<!--<app-tags></app-tags>-->
+<app-sites></app-sites>
 }
-    
+     
 
 <div class="footer" (click)="gtfo()">© Strom Katowice {{getYear()}}</div>
