@@ -1,0 +1,18 @@
+<div class="content">
+    @for(category of dataService.groups; track category ){
+        <h4>{{ category.name }}</h4>
+        <div class="category">
+            @for(group of category.groups; track group ){
+                <div class="group">
+                    <span>{{ group.name }}</span>
+                    <div class="group-color" [attr.style]="'background-color:'+group.color"></div>
+                    <div class="members">
+                        @for(mem of group.members; track mem ){
+                            <span>{{ mem }}</span>
+                        }
+                    </div>
+                </div>
+            }    
+        </div>
+    }
+</div>

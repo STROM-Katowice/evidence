@@ -1,12 +1,12 @@
 .block{
-    border-left: 5px solid #121212;
-    border-right: 5px solid #121212;
+    border-left: 5px solid #4c4c4c;
+    border-right: 5px solid #4c4c4c;
     padding-bottom: 35px;
     display: grid;
     
 }
 .shelf{
-    border-bottom: 4px solid #241010;
+    border-bottom: 4px solid #4c4c4c;
     min-width: 100px;
     height: 8vh;
     min-height: 45px;
@@ -43,8 +43,8 @@
     font: 18px;
     border: 2px solid green;
 }
-.offline{
-    font-size: 3vh;
+.offline, .offline span{
+    font-size: 3vh !important;
     font-weight: bold;
     text-align: center;
     margin-top: -2.5vh;

@@ -1,8 +1,8 @@
 <div class="container">
     <div class="menu">
         <span class="left-item" (click)="s=0">Ogólne</span>
-        <span class="left-item" (click)="s=1">Grupy</span>
-        <span class="left-item" (click)="s=2">Kwalifikacje</span>
+        <span class="left-item" (click)="s=1">Powiadomienia</span>
+        <span class="left-item" (click)="s=2">XXX</span>
     </div>
     <div class="content">
         @if( s==0 ){
@@ -24,28 +24,32 @@
             </div>
         }
         @if( s==1 ){
-            <div> <!--FIXME!!!
-                !--@for( group of dataService.dataArrays.groups; track group.id ){
-                    <div class="group">
-                        <div class="group-color" ></div>
-                        <input class="name" [attr.value]="group.name">
-                        <div class="number">
-                            <span class="decrement">-</span>
-                            <input #num class="number" type="number" [attr.value]="group.priority" (change)="dataService.update(num.value)">
-                            <span class="increment">+</span>
-                        <div>
-                        <button class="deleteThing">x</button>
+            <div>
+                @for( section of dataService.groups; track section ){
+                    <div class="groupSection">
+                        <h4>{{ section.name }}</h4>
+                        @for( group of section.groups; track group ){
+                        <div class="group">
+                            <div class="group-color"></div>
+                            <input class="name" [attr.value]="group.name">
+                            <div class="number">
+                                <span class="decrement" (click)="add(-1, num)">-</span>
+                                <input #num class="number" type="number" [attr.value]="2" (change)="dataService.updateDB(num.value, 'group', 'priority')">
+                                <span class="increment" (click)="add(1, num)">+</span>
+                            </div>
+                            <button class="deleteThing">x</button>
+                        </div>
+                        }
                     </div>
-                }-->
+                }
             </div>
-            <div class="add" (click)="dataService.addNew('Group')"><span>+</span></div>
         }
         @if( s==2 ){
             <div>
                 
                 Połącz z innymi obiektami
             </div>
-            <div class="add" (click)="dataService.addNew('Quals')"><span>+</span></div>
+            <div class="add" ><span>+</span></div>
         }
     </div>
 </div>

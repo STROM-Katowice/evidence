@@ -1,9 +1,8 @@
 .in{
-    width: 20vw;
+    max-width: 4cm;
     height: 2.4vh;
-    background-color: rgb(243, 243, 243);
-    color: #161616;
-    border: 1px solid rgb(0, 0, 0);
+    background-color: rgb(7, 0, 42);
+    border: 1px solid #0c4b93;
     font-size: 1.5vh;
     padding: 0px 4px;
 }
@@ -11,7 +10,6 @@
 .icon{
     position: relative;
     right: 2.5vh;
-    top: 0.5vh;
     width: 2vh;
     height: 2vh;
 }

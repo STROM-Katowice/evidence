@@ -1,9 +1,9 @@
 .header{
     display: flex;
     flex-direction: row;
-    max-height: 40px;
-    min-height: 18px;
-    background-color: #0c0824;
+    max-height: 44px;
+    min-height: 20px;
+    background-color: #080034;
     color:#eaebf0;
     z-index: 1000;
 }
@@ -16,28 +16,39 @@
     border-bottom: 4px;
     padding: 0 0.1cm;
 }
-/*
-.menu-item::after{
-    content: "";
-    border:30px solid rgb(255, 0, 0, 0);
-    border-bottom-color: rgb(255, 0, 0, 1);
-    position: relative;
-    top: -18px;
-    left:-0px;   
+
+.moreCats{
+    display: none;
+    position: absolute;
+    top: 2.8vh;
+    flex-direction: column;
+    background-color: #080034;
+    border: 1px solid #0c4585;
+    padding: 0.1cm 0;
+    margin-left: -0.1cm;
+    z-index:990;
 }
-*/
-.menu-item *{
-    top: 50%;
-    transform: translateY(-50%);
+.moreCats span{
+    padding: 0.1cm 0.22cm;
+}
+.menu-item:hover .moreCats{
+    display: flex;
+}
+
+.menu-item:hover, .moreCats span:hover{
+    background-color: #342d5b;
 }
 
 .account{
     font-size: max(1.8vh, 0.2cm);
-    border-bottom: 2px solid #0c4585;
+    border-left: 2px solid #0c4585;
     padding-right: 5px;
     max-width: 14vw;
     text-align: center;
     display: flex;
+}
+.account img{
+    height: 3vh;
 }
 
 .footer{
@@ -78,23 +89,30 @@
 }
 
 .canvas{
-    margin: 2vh 4vh 0 4vh;
+    margin: 0.5cm;
     display: flex;
 }
 .siteBar{
-    margin: 3vh 4vh;
     display: flex;
+    flex-direction: column;
+    background-color: #030011;
+    min-height: 97vh;
+    width: min(18vw, 6.5cm);
 }
 
 .siteSelect{
     font-size: 2vh;
-    min-width: min(92vw, 9vh);
-    border: 3px solid #0c0824;
+    color: #080034;
+    border: 3px solid #565656;
 }
 
 .siteData{
     display: flex;
     flex-direction: column;
     font-size: 1.5vh;
-    margin-left: 1vh;
+    padding:0.15cm;
+}
+
+.siteImg{
+    aspect-ratio: 1/1;
 }

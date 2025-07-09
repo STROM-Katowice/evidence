@@ -13,4 +13,10 @@ export class SettingsComponent {
   console(x:any){
     console.log(x);
   }
+
+  add(k:number, thing:any){
+    thing.value+=k;
+  }
+
+  
 }

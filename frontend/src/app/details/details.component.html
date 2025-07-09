@@ -1,24 +1,34 @@
 <div class="details">
-  <label>Nazwa: <input #name (change)="ch(name, 'name')" class="itemData" [attr.value]="item.name"></label>
-  <label>Zwrot po max
-     <input #func (change)="ch(func, 'absence')" class="personData" [attr.value]="item.maxabsence"></label>
-  
-  <span>Uprawnienia</span>
-  <select>
-        @for( person of dataService.employees; track person ){
-        <option>{{person.name}}</option>
-        }
-  </select>
-  <input type="button" value="Dodaj">
-  <div class="imgSelect">
-  @for(img of imgs; track img; let idx=$index){
-    <img [attr.class]="(idx==selImg ? 'bdBlue' : '') +' imgSelect-img'" (click)="selImg=idx" [attr.src]="img">
-  }
+  <div class="position">
+    <span class="position">Urządzenie znajduje się na regale {{ "NaN" }}, półce {{ item.pos }} od góry. </span>
+    <input type="button" class="btn" value="Przenieś">
   </div>
-  <input type="button" value="Oznacz jako zabrane">
-  <input type="button" value="Oznacz jako skradzione">
+  <div class="flex">
+    <div class="column available">
+      <label>Nazwa: <input #name (change)="changeName(name.value)" class="itemData gray" [attr.value]="item.name"></label>
+      <label>Zwrot po max
+        <input #func (change)="changeAbsence(func.value)" class="maxDays gray" [attr.value]="item.maxabsence">
+         dniach
+      </label>
+      <label>Ostatnio wzięte przez {{ item.owner }} {{ convert(item.stamp) }}</label>
+      <span>Uprawnienia:</span>
+      <div class="flex">
+      <select class="addPerms gray available">
+            @for( person of dataService.employees; track person ){
+            <option>{{person.name}}</option>
+            }
+      </select>
+      <input type="button" class="btn" value="Dodaj">
+      </div>
+    </div>
+    <div class="imgSelect">
+    @for(img of imgs; track img; let idx=$index){
+      <img [attr.class]="(idx==selImg ? 'bdBlue' : '') +' imgSelect-img'" (click)="selectImg(idx)" [attr.src]="img">
+    }
+    </div>
+  </div>
+  <h4>Zdarzenia</h4>
   <div class="events">
-      <h4>Zdarzenia</h4>
       <!--@for(event of eventService.select("item", item.name); track $index ){
         <div class="eventBar">
           <span>$index</span>
@@ -31,4 +41,9 @@
         </div>
       }-->
   </div>
+  <div class="flex buttons">
+    <input type="button" class="btn action" value="Oznacz jako zabrane">
+    <input type="button" class="btn action" value="Oznacz jako skradzione">
+    <input type="button" (click)="dataService.edit=false" class="btn action bgGreen" value="Zamknij i zapisz">
+    </div>
 </div>

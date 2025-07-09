@@ -4,76 +4,143 @@ import { inject, Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class DataService {
+  static stock: any;
 
   constructor(){
     this.start();
   }
 
+  token=localStorage.getItem("token");
   account: any={
     id: 100,
     name: "Deweloper",
-    img: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.sWgbnrrkMBnmDlzYVZ77rgHaEk%26pid%3DApi&f=1&ipt=b6057ac77a8fdc448c3dfe5cab075b6e7187a9692057957712742ebfce4f7681&ipo=images'
+    img: 'https://static.vecteezy.com/system/resources/previews/022/285/875/original/letter-e-pink-alphabet-glossy-png.png'
   };
-  dataArrays: any={qualifications:[], sites:[], groups:[]};
-  groups=[{
-    id:0,
-    priority:0,
-    name: 'mnhbhuj',
-    color: '#654765'
-  }];
+  groups=[
+    {
+      name: "brygady",
+      groups: [      
+        {
+          id:0,
+          name: 'Kola-Meszna',
+          color: '#654765',
+          members: ["Kola", "Damian"]
+        },
+        {
+          id:1,
+          name: 'Janek-Firma',
+          color: '#FF3433',
+          members: ["Janek", "Mateusz"]
+        }
+      ]
+    },
+    {
+      name: "administracja",
+      groups: [      
+        {
+          id:0,
+          name: 'Kierownicy',
+          color: '#009844',
+          members: ["Jan Walecki", "Mateusz W."]
+        },
+        {
+          id:1,
+          name: 'Sekretariat',
+          color: '#17EE11',
+          members: ["Ola", "Pani Ewa"]
+        }
+      ]
+    },
+    {
+      name: "SEP",
+      groups: [      
+        {
+          id:0,
+          name: '1kV',
+          color: '#6FF1F5',
+          members: ["Kola", "Paweł"]
+        },
+        {
+          id:1,
+          name: '30kV',
+          color: '#0000F3',
+          members: ["Janek", "Mateusz C."]
+        }
+      ]
+    }];
   settings={
     multiobject: false,
     ilustrator: true
   };
   stamp: number=0;
-  stock: any = [
-    
-  ];
+  stock: any=[];
+  items: any=[];
+  sites: any=[];
+
   edit: boolean=false;
   toEdit:any={};
 
-  regaly: any=[
-    {
-      id: 234545,
-      height: 2000,
-      width: 1000,
-      x: 1,
-      y: 8,
-      model: "xxx69",
-    }
-  ]
   employees: any=[ {} ];
 
-  start(){
-    this.update();
-    this.getEmployees();
-    this.pulldata();
-    setInterval(() => { this.update() }, 10000);
+  _HEADERS={
+    authorization: this.token
   }
-
-  async pulldata(){
-    for(let el in this.dataArrays){
-      const res=await fetch('http://localhost:3000/'+el);
-      if(res.status==200){
-        this.dataArrays[el]=await res.json();;
-      }else{
-        console.log("Błąd HTTP "+res.status+"!!!!");
-      }
+  _GET={
+    method: "GET",
+    Headers: this._HEADERS
+  }
+  
+  async start(){
+    const token=localStorage.getItem("token");
+    const res=await fetch('http://localhost:3000/login', this._GET)
+    if(res.status!=200){
+      this.token="";
     }
-    console.log(this.dataArrays.sites);
+    this.update();
+    this.groups=await this.pulldata("groups");
+    this.items=await this.pulldata("items");
+    this.employees=await this.pulldata("pracownicy");
+    this.sites=await this.pulldata("sites");
   }
 
-  async update(){
-    const res=await fetch('http://localhost:3000/busData?stamp='+this.stamp)
-    if(res.status!=304){
-      const items=await res.json();
-      if(this.edit) this.toEdit.stock=items;
-      else this.stock=items;
-      console.log("STOCK:");
-      console.log(items);
-      this.stamp=Math.floor(Date.now()/1000);
+  async pulldata(type:string){
+    console.log(type+": ");
+    const res=await fetch('http://localhost:3000/'+type, this._GET);
+    if(res.status==200){
+      const ret=await res.json();
+      console.log(ret);
+      return ret;
     }else{
-      console.log("Kod 304 :)");
+      console.log("Błąd HTTP "+res.status+"!!!!");
+      return {};
+    }
+  }
+
+
+  update(){
+    const socket = new WebSocket('ws://localhost:8080');
+    const x=this;
+    socket.onmessage = function(event){
+      const data=JSON.parse(event.data);
+      if(!x.edit) x.stock=data;
+      console.log("STOCK:");
+      console.log(x.stock);
+    };
+  }
+
+  async updateDB(values:string, thing:string, subthing:string){
+    const r=await fetch('http://localhost:3000/update', {
+      method: "POST",
+      body: JSON.stringify({
+        thing: thing,
+        value: values
+      })
+    });
+    if(r.status==200){
+      const k=await r.json();
+      console.log(k);
+    }else{
+      console.log("ERROR! "+r.status);
     }
   }
 
@@ -87,16 +154,19 @@ export class DataService {
     }
   }
 
-  async addNew(thing: string){
-    const r=await fetch('http://localhost:3000/new'+thing, {
+  async addNew(thing: string, type:string){
+    const r=await fetch('http://localhost:3000/new', {
       method: "POST",
-      body: JSON.stringify({})
+      body: JSON.stringify({
+        thing: thing,
+        type: type
+      })
     });
-    if(r.status==200){  //TODO: !!!
-      const k=await r.json();
-      this.employees.push({ id: k.id, img: './assets/amogus.png' });
+    if(r.status==200){
+      return true;
     }else{
       console.log("ERROR! "+r.status);
+      return false;
     }
   }
 

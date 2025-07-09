@@ -2,8 +2,13 @@
     <div class="menu-item" (click)="v=0" [class]="v==0 ? 'bdBtmBlue' : ''">
         <span>Regały</span>
     </div>
-    <div class="menu-item" (click)="v=1" [class]="v==1 ? 'bdBtmBlue' : ''">
-        <span>Ludzie</span>
+    <div class="menu-item" [class]="v==1 ? 'bdBtmBlue' : ''">
+        <span (click)="v=1">Ludzie i grupy</span><span> ⌵</span>
+        <div class="moreCats">
+            <span (click)="v=1">Pracownicy</span>
+            <span (click)="v=11">Grupy i Brygady</span>
+            <span (click)="v=12">Kwalifikacje</span>
+        </div>
     </div>
     @if( dataService.settings.multiobject ){
     <div class="menu-item" (click)="v=4" [class]="v==4 ? 'bdBtmBlue' : ''">
@@ -28,29 +33,36 @@
 </div>
 
 @if(v==0){
-    <div class="siteBar">
-        <select #sselect class="siteSelect" (change)="changeSite(sselect.value)">
-            @for( lsite of dataService.dataArrays.sites; track lsite.name; let idx=$index){
-                <option class="siteOption" [attr.value]="idx">{{lsite.name}}</option>
-            }
-        </select>
-        <div class="siteData">
-            @if( site.wy=="0" ){
-                <span>TERAZ: {{ site.last }}</span>
-                <span>Wejście: {{ site.we }}</span>
-            }
-            @else{
-                <span>Ostatnia osoba: {{ site.last }}</span>
-                <span>Wyjście: {{ site.wy }}</span>
-            }
+    <div class="flex">
+        <div class="siteBar">
+            <img [attr.src]="site.img" class="siteImg">
+            <select #sselect class="siteSelect" (change)="changeSite(sselect.value)">
+                @for( lsite of dataService.sites; track lsite.name; let idx=$index){
+                    <option class="siteOption" [attr.value]="idx">{{lsite.name}}</option>
+                }
+            </select>
+            <div class="siteData">
+                @if( site.wy=="0" ){
+                    <span>TERAZ: {{ site.last }}</span>
+                    <span>Wejście: {{ site.we }}</span>
+                }
+                @else{
+                    <span>Ostatnia osoba:</span><span>{{ site.last }}</span>
+                    <span>Wejście do magazynu: {{ site.wy }}</span>
+                }
+                <span>Położenie: <a href="#">{{ site.location }}</a></span>
+                <span>IP: localhost</span>
+                <span>Brygady:</span>
+                <span>Uprawnieni:</span>
+                <button class="btn">EDYTUJ</button>
+            </div>
         </div>
-    </div>
-    <div class="canvas">
-    @for( regal of workhorse; track regal.mID; let idx=$index){
-        
-    <app-regal [id]="idx" [sitename]="site.name" class="main" [attr.width]="regal.width" [attr.height]="regal.height"
-                [attr.x]="regal.x" [attr.y]="regal.y"></app-regal>
-    }
+        <div class="canvas">
+        @for( regal of dataService.stock; track regal.mID; let idx=$index){
+            
+        <app-regal [id]="idx" class="main" [attr.model]="regal.model"></app-regal>
+        }
+        </div>
     </div>
 }
 
@@ -60,7 +72,13 @@
         <app-people [id]="idx"></app-people>
     }
     </div>
-    <div class="add" (click)="dataService.addNew('Employee')"><span>+</span></div>
+    <div class="add" (click)="dataService.addNew('Employee', '')"><span>+</span></div>
+}
+@if(v==11){
+    <app-groups></app-groups>
+}
+@if(v==12){
+    <app-quals></app-quals>
 }
 
 @if(v==2){

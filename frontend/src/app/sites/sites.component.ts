@@ -11,4 +11,5 @@ export class SitesComponent {
 
   constructor(public dataService:DataService){}
 
+  s: number=1;
 }

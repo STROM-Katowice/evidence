@@ -1,19 +1,20 @@
 <div class="block">
-    @for ( item of dataService.stock[sitename][id].val; track item; let idx=$index){
-        <div class="shelf" (click)="edit()">
-            <img class="ilustration" [src]="item.img" [class]="item.status!=1 ? 'monochrome' : ''">
+    @for ( state of dataService.stock[id].val; track $index; let idx=$index){
+        @let item=getItem(id, idx);
+        <div class="shelf" (click)="edit(idx)">
+            <img class="ilustration" [src]="item.img" [class]="state!=1 ? 'monochrome' : ''">
             <span class="name">{{item.name}}</span>
             <span class="font-red">{{convert(item.stamp)}}</span>
             <span>{{item.owner}}</span>
         </div>
-        <div class="colorTag" [class]="item.status!=1 ? 'bgRed' : 'bgGreen' "></div>
-        @if ( f==true ){  <!--//huh?-->
+        <div class="colorTag" [class]="item.state!=1 ? 'bgRed' : 'bgGreen' "></div>
+        @if ( f==idx && dataService.edit ){  <!--//huh?-->
             <app-details [item]="item"></app-details>
         }
     }
 </div>
 <div class="offline">   
-    @if( dataService.stock[sitename][id].status==404 ){
+    @if( dataService.stock[id].status==404 || dataService.stock[id].status==405 ){
         <span class="fontRed blink">!!</span><span>OFFLINE</span><span class="fontRed blink">!!</span>
     }
     @else{

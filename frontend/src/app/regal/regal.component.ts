@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import  { DataService } from '../data.service';
 import { DetailsComponent } from '../details/details.component';
+import { isEmpty } from 'rxjs';
 
 @Component({
   selector: 'app-regal',
@@ -15,18 +16,13 @@ export class RegalComponent {
   constructor(public dataService: DataService){
   }
   
-  f=false;
-  ngOnInit(){
-  }
-  edit(){
-    if(this.f){
-      this.f=false;
-      this.dataService.edit=false;
-      this.dataService.stock=this.dataService.toEdit.stock;
-    }else{
-      this.f=true;
+  f:number=-1;
+  
+  edit(id:number){
+    if(this.dataService.edit) return;
+      this.f=id;
       this.dataService.edit=true;
-    }
+
   }
 
   updateImg(newUrl:any, v:number){
@@ -38,9 +34,13 @@ export class RegalComponent {
     const d=new Date(dat);
     let ds=d.getDate()+".";
     if(d.getMonth()+1<10) ds+="0";
-    ds+=d.getMonth()+1+" "+d.getHours()+":";
+    ds+=d.getMonth()+1+"."+d.getFullYear()+" "+d.getHours()+":";
     if(d.getMinutes()<10) ds+="0";
     ds+=d.getMinutes()+1
     return ds;
+  }
+
+  getItem(id:number, pos:number){
+    return this.dataService.items.filter((x: any )=> x.slaveID==this.dataService.stock[id].uID && x.pos-1==pos)[0];
   }
 }

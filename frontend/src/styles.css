@@ -9,6 +9,12 @@
     border: none;
     font-family: mainfont;
     user-select: none;
+    color: #dcdcdc;
+    font-size: 0.35cm;
+}
+
+body{
+  background-color: #041421;
 }
 
 .bgRed{
@@ -60,10 +66,17 @@ input{
 .flex{
     display: flex;
     flex-direction: row;
+    gap:0.2cm;
 }
 
-.flex *{
-    flex: 1;
+.column{
+  display: flex;
+  flex-direction: column;
+}
+
+.available{
+  width: -moz-available;
+  width: -webkit-fill-available;
 }
 
 .micro{
@@ -125,6 +138,13 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.btn{
+  padding: 5px 7px;
+  background-color: #1e306c;
+  border-radius: 0.1cm;
+  cursor: pointer;
 }
 
 input[type="number"] {

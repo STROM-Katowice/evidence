@@ -1,0 +1,30 @@
+.category{
+    display: inline-flex;
+    width: 100%;
+}
+h4{
+    font-size: 0.4cm;
+    color: #757474;
+    width:100%;
+}
+.group{
+    width:5.5cm;
+    border-radius: 0.16cm;
+    margin: 0.1cm;
+    border: 2px solid #555555;
+    display: flex;
+}
+.group span{
+    width: 4.5cm;
+    padding: 0.2cm;
+    font-size: 0.35cm;
+}
+.group-color{
+    width:0.87cm;
+    height:0.87cm;
+    right:0;
+    border-radius: 0 0.13cm 0.13cm 0;
+}
+.members{
+    display: none;
+}

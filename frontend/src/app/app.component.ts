@@ -7,10 +7,12 @@ import { PeopleComponent } from './people/people.component';
 import { EventsComponent } from './events/events.component';
 import { SettingsComponent } from './settings/settings.component';
 import { SitesComponent } from './sites/sites.component';
+import { GroupsComponent } from './groups/groups.component';
+import { QualsComponent } from './quals/quals.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RegalComponent, SitesComponent, SearchComponent, PeopleComponent, EventsComponent, SettingsComponent],
+  imports: [RegalComponent, SitesComponent, SearchComponent, PeopleComponent, EventsComponent, SettingsComponent, GroupsComponent, QualsComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -18,20 +20,15 @@ export class AppComponent {
   title = 'ANTYCYGAN';
   v=0;
   a=false;
-  workhorse:any=[];
   site:any={};
   ngOnInit(){
     setTimeout(()=>{
       this.changeSite("0");
-    }, 1500);  //nie usuwać set timeout
+    }, 2000);  //nie usuwać set timeout
   }
   changeSite(nid:string){
-    this.site=this.dataService.dataArrays.sites[nid];
-    if(typeof this.dataService.stock[this.site.name]=="undefined")
-      this.workhorse=[];
-    else
-      this.workhorse=this.dataService.stock[this.site.name];
-    console.log(this.workhorse);
+    this.site=this.dataService.sites[nid];
+    this.site.img="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimages.iberion.media%2Fimages%2F1920%2FSciolka_z_szyszek_1_0e34932cb8.png&f=1&nofb=1&ipt=99c29dff00dfaf670a36d296fdbbea01c3a4e6aab6652c8d3bb569dd941b9155";
   }
 
   gtfo(){
