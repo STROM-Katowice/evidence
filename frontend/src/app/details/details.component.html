@@ -7,10 +7,10 @@
     <div class="column available">
       <label>Nazwa: <input #name (change)="changeName(name.value)" class="itemData gray" [attr.value]="item.name"></label>
       <label>Zwrot po max
-        <input #func (change)="changeAbsence(func.value)" class="maxDays gray" [attr.value]="item.maxabsence">
+        <input #func (change)="changeAbsence(func.value)" class="maxDays gray" [attr.value]="item.absence">
          dniach
       </label>
-      <label>Ostatnio wzięte przez {{ item.owner }} {{ convert(item.stamp) }}</label>
+      <label>Ostatnio wzięte przez:<br>{{ item.owner }} dnia {{ convert(item.stamp) }}</label>
       <span>Uprawnienia:</span>
       <div class="flex">
       <select class="addPerms gray available">

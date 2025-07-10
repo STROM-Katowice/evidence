@@ -1,11 +1,9 @@
 import { Component, Input } from '@angular/core';
 import  { DataService } from '../data.service';
-import { DetailsComponent } from '../details/details.component';
 import { isEmpty } from 'rxjs';
 
 @Component({
   selector: 'app-regal',
-  imports: [DetailsComponent],
   templateUrl: './regal.component.html',
   styleUrl: './regal.component.css'
 })
@@ -20,9 +18,8 @@ export class RegalComponent {
   
   edit(id:number){
     if(this.dataService.edit) return;
-      this.f=id;
-      this.dataService.edit=true;
-
+    this.dataService.edit=true;
+    this.dataService.toEdit=id-1;
   }
 
   updateImg(newUrl:any, v:number){
@@ -31,7 +28,7 @@ export class RegalComponent {
   }
 
   convert(dat:  number ){
-    const d=new Date(dat);
+    const d=new Date(dat*1000);
     let ds=d.getDate()+".";
     if(d.getMonth()+1<10) ds+="0";
     ds+=d.getMonth()+1+"."+d.getFullYear()+" "+d.getHours()+":";

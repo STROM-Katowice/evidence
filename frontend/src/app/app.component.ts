@@ -9,10 +9,11 @@ import { SettingsComponent } from './settings/settings.component';
 import { SitesComponent } from './sites/sites.component';
 import { GroupsComponent } from './groups/groups.component';
 import { QualsComponent } from './quals/quals.component';
+import { DetailsComponent } from './details/details.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RegalComponent, SitesComponent, SearchComponent, PeopleComponent, EventsComponent, SettingsComponent, GroupsComponent, QualsComponent],
+  imports: [RegalComponent, SitesComponent, SearchComponent, PeopleComponent, EventsComponent, SettingsComponent, GroupsComponent, DetailsComponent, QualsComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

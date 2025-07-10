@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { DataService } from '../data.service';
 
 @Component({
@@ -9,12 +9,13 @@ import { DataService } from '../data.service';
 })
 export class DetailsComponent {
 
-  @Input() item:any;
   constructor(public dataService: DataService){}
-
+  
+  item:any={};
   imgs:Array<String>=[];
   selImg:number=0;
   ngOnInit(){
+    this.item=this.dataService.items[this.dataService.toEdit];
     this.imgs[0]=this.item.img;
   }
   
@@ -39,7 +40,26 @@ export class DetailsComponent {
     this.imgs=t.concat(k.img);   
   }
   
-  changeAbsence(a:string){}
+  async changeAbsence(a:string){
+    const body={
+      id: this.item.id,
+      absence: a
+    };
+    const r1=await fetch('http://localhost:3000/item/absence', {
+      method: "POST",
+      headers: { 
+        'Content-Type': 'application/json',
+        'Authorization': `${this.dataService.token}` 
+      },
+      body: JSON.stringify(body)
+    });
+    if(r1.status!=200){
+      alert("Odmowa serwera.");
+      return;
+    }
+    console.log("OK");
+    this.item.absence=a;
+  }
 
   async selectImg(idx:number){
     this.selImg=idx;
@@ -62,7 +82,7 @@ export class DetailsComponent {
   }
 
   convert(dat:  number ){   //ZDUPLIKOWANE! SPRÓBOWAĆ USUNĄĆ
-    const d=new Date(dat);
+    const d=new Date(dat*1000);
     let ds=d.getDate()+".";
     if(d.getMonth()+1<10) ds+="0";
     ds+=d.getMonth()+1+"."+d.getFullYear()+" "+d.getHours()+":";

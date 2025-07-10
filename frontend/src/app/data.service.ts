@@ -78,7 +78,7 @@ export class DataService {
   sites: any=[];
 
   edit: boolean=false;
-  toEdit:any={};
+  toEdit:number=1;
 
   employees: any=[ {} ];
 

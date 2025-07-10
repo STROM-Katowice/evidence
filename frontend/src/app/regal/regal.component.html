@@ -1,16 +1,13 @@
 <div class="block">
     @for ( state of dataService.stock[id].val; track $index; let idx=$index){
         @let item=getItem(id, idx);
-        <div class="shelf" (click)="edit(idx)">
+        <div class="shelf" (click)="edit(item.id)">
             <img class="ilustration" [src]="item.img" [class]="state!=1 ? 'monochrome' : ''">
             <span class="name">{{item.name}}</span>
             <span class="font-red">{{convert(item.stamp)}}</span>
             <span>{{item.owner}}</span>
         </div>
-        <div class="colorTag" [class]="item.state!=1 ? 'bgRed' : 'bgGreen' "></div>
-        @if ( f==idx && dataService.edit ){  <!--//huh?-->
-            <app-details [item]="item"></app-details>
-        }
+        <div class="colorTag" [class]="state!=1 ? 'bgRed' : 'bgGreen' "></div>
     }
 </div>
 <div class="offline">   

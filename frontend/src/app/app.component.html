@@ -92,6 +92,7 @@
 @if(v==4){
 <app-sites></app-sites>
 }
-     
-
+@if(dataService.edit){
+    <app-details></app-details>
+}
 <div class="footer" (click)="gtfo()">© Strom Katowice {{getYear()}}</div>

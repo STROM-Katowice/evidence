@@ -106,19 +106,19 @@ async function ask(slave){
         slave.disfunctions++;
         if(slave.disfunctions>3) {
             slave.status=404;
-            changed=1;
+            //changed=1;
         }
         if(slave.disfunctions>12) slave.status=405;
         return;
     }else{
         slave.status=100;       //TODO: wymyślić coś lepszegoz
-        changed=1;
+        //changed=1;
     }
     
     for(let i=0; i<8; i++){
         if(slave.val[i]!=val[i]){
-            if(val[i]==0 ){ 
-                DB(`UPDATE items SET stamp=${Date.now()}, owner="${sites[slave.lID].last}" WHERE slaveID=${slave.uID} AND pos=${i+1}`);
+            if(val[i]==0 ){                                     //BAJPAS, ZMIENIĆ
+                DB(`UPDATE items SET stamp=${Date.now()/1000}, owner="JAN SURMACZ" WHERE slaveID=${slave.uID} AND pos=${i+1}`);
             }
             slave.val[i]=val[i];
             changed=1;
@@ -149,7 +149,7 @@ async function discoverNew(){
         const newDevice=await workaround()
         if(newDevice==null) return;
             const sr=isRegisterd(newDevice[0]);
-            let mID=slaves.length+1;
+            let mID=slaves[slaves.length-1].mID+1;
             if(sr.is) mID=sr.id;
             console.log("New slave detected. Unique id="+newDevice[0]+"\nAttempting to assign modbus id="+mID);
             await client.writeRegisters(6, [mID , newDevice[0]]);
@@ -197,7 +197,10 @@ function isRegisterd(uID){
 }
 
 function insertDB(table, slave){
-    DB(`INSERT INTO ${table} (mID, uID, width, height, x, y, model) VALUES (${slave.mID}, '${slave.uID}', ${slave.width}, ${slave.height}, ${slave.x}, ${slave.y}, '${slave.model}')`)
+    DB(`INSERT INTO ${table} (mID, uID, lID, pos, model) VALUES (${slave.mID}, ${slave.uID}, ${1}, ${0}, '${slave.model}')`);
+    for(let i=0; i<8; i++){ 
+        DB(`INSERT INTO items (id, slaveID, pos, name, img, perms, stamp, owner, absence, tag) VALUES (null, ${slave.uID}, ${i+1}, '---', './assets/noimage.png', '["Jan Surmacz"]', 0, '', 7, null)`);
+    }
 }
 
 async function getSlaves(location){
