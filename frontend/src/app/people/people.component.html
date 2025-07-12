@@ -11,9 +11,7 @@
         <!--ODZNAKI!-->
         <div class="flex">
             <button class="btt" (click)="rfid=true">Zarządzaj kartami&nbsp;RFID</button>
-            @if( dataService.employees[id].name!="Jan Walecki" ){
-            <button class="btt btK" (click)="sqid=true">△ SQID GAME ◻</button>
-            }
+            <button class="btt btK" [ngClass]="dataService.employees[id].id==1 ? 'invis' : 'test'" (click)="sqid=true">△ SQID GAME ◻</button>
         </div>
         <input class="notes" #notes (change)="balls(notes, 'notes')" placeholder="Notatki" [attr.value]="dataService.employees[id].notes">
     }

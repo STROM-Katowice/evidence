@@ -1,6 +1,7 @@
 <div class="content">
     @for(category of dataService.groups; track category ){
         <h4>{{ category.name }}</h4>
+        <button class="btn add" (click)="addGroup(category.name)">Dodaj</button>
         <div class="category">
             @for(group of category.groups; track group ){
                 <div class="group">

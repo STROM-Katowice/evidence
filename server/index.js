@@ -276,18 +276,6 @@ app.get('/groups', async (req, res) => {
     res.send(groups);
 });
 
-app.post('/delete', async (req, res) => {
-    console.log(req.body.id);
-    const koledzy=await DB(`DELETE FROM employees WHERE id=${req.body.id}`);
-    res.send({ mess: "FEGELEIN!" });
-});
-
-app.post('/newEmployee', async (req, res) => {
-    const koledzy=await DB(`INSERT INTO employees (id, name, position, places, qualifications, notes, tel, img) VALUES (null, '', '', '', '', '', '', 'https://t3.ftcdn.net/jpg/03/53/11/00/360_F_353110097_nbpmfn9iHlxef4EDIhXB1tdTD0lcWhG9.jpg')`);
-    console.log(koledzy);
-    res.send({ id: koledzy.insertId });
-});
-
 
 app.post('/new', async (req, res) => {
     let query;
@@ -304,10 +292,30 @@ app.post('/new', async (req, res) => {
     res.send({ id: newrecord.insertId });
 });
 
-app.post('/employeeUpdate', async (req, res) => {
+app.post('/employee/update', async (req, res) => {
+    if(req.body.id==1){
+        res.send({ error: "NIEDOZWOLONE!" });
+        return;
+    }
     const koledzy=await DB(`UPDATE employees SET ${req.body.field}='${req.body.val}' WHERE id=${req.body.id}`);
     res.send({ rg: "fegelein!" });
 });
+
+app.post('/employee/new', async (req, res) => {
+    const koledzy=await DB(`INSERT INTO employees (id, name, position, places, qualifications, notes, tel, img) VALUES (null, '', '', '', '', '', '', 'https://t3.ftcdn.net/jpg/03/53/11/00/360_F_353110097_nbpmfn9iHlxef4EDIhXB1tdTD0lcWhG9.jpg')`);
+    console.log(koledzy);
+    res.send({ id: koledzy.insertId });
+});
+
+app.post('/employee/delete', async (req, res) => {
+    if(req.body.id==1){
+        res.send({ error: "NIEDOZWOLONE!" });
+        return;
+    }
+    const koledzy=await DB(`DELETE FROM employees WHERE id=${req.body.id}`);
+    res.send({ mess: "FEGELEIN!" });
+});
+
 
 function selectImg(imgs){
     let possibles=[];

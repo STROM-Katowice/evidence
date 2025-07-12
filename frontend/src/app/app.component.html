@@ -50,10 +50,14 @@
                     <span>Ostatnia osoba:</span><span>{{ site.last }}</span>
                     <span>Wejście do magazynu: {{ site.wy }}</span>
                 }
-                <span>Położenie: <a href="#">{{ site.location }}</a></span>
-                <span>IP: localhost</span>
+                <span>Położenie: <a href="https://maps.google.com">{{ site.location }}</a></span>
+                <span>IP: {{ site.ip }}</span>
                 <span>Brygady:</span>
+                @for( brigade of getBrigades(); track brigade.id ){
+                    <span>{{brigade.name}}</span>
+                }
                 <span>Uprawnieni:</span>
+                {{site.perms}}
                 <button class="btn">EDYTUJ</button>
             </div>
         </div>
@@ -72,7 +76,9 @@
         <app-people [id]="idx"></app-people>
     }
     </div>
-    <div class="add" (click)="dataService.addNew('Employee', '')"><span>+</span></div>
+    <div class="add" (click)="dataService.addNewEmployee()">
+        <span>DODAJ</span>
+    </div>
 }
 @if(v==11){
     <app-groups></app-groups>
@@ -89,9 +95,6 @@
 <app-settings></app-settings>
 }
 
-@if(v==4){
-<app-sites></app-sites>
-}
 @if(dataService.edit){
     <app-details></app-details>
 }

@@ -100,6 +100,12 @@
     width: min(18vw, 6.5cm);
 }
 
+.siteData .btn{
+    position: absolute;
+  bottom: 3vh;
+  width: min(calc( 18vw - 0.3cm ), 6.2cm);
+}
+
 .siteSelect{
     font-size: 2vh;
     color: #080034;
@@ -109,6 +115,7 @@
 .siteData{
     display: flex;
     flex-direction: column;
+    flex-grow: 2;
     font-size: 1.5vh;
     padding:0.15cm;
 }

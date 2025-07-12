@@ -13,12 +13,18 @@
       <label>Ostatnio wzięte przez:<br>{{ item.owner }} dnia {{ convert(item.stamp) }}</label>
       <span>Uprawnienia:</span>
       <div class="flex">
-      <select class="addPerms gray available">
+      <select #perms class="addPerms gray available">
             @for( person of dataService.employees; track person ){
             <option>{{person.name}}</option>
             }
       </select>
-      <input type="button" class="btn" value="Dodaj">
+      <input type="button" (click)="addPerms(perms.value)" class="btn" value="Dodaj">
+      </div>
+      <div>
+      <h6>Kliknij grupę/osobę, by usunąć uprawnienie</h6>
+      @for( permised of item.perms; track permised ){
+        <span class="permised" (click)="delPerms(permised)">{{ permised }}</span>
+      }
       </div>
     </div>
     <div class="imgSelect">

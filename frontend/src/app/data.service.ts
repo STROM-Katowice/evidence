@@ -16,58 +16,6 @@ export class DataService {
     name: "Deweloper",
     img: 'https://static.vecteezy.com/system/resources/previews/022/285/875/original/letter-e-pink-alphabet-glossy-png.png'
   };
-  groups=[
-    {
-      name: "brygady",
-      groups: [      
-        {
-          id:0,
-          name: 'Kola-Meszna',
-          color: '#654765',
-          members: ["Kola", "Damian"]
-        },
-        {
-          id:1,
-          name: 'Janek-Firma',
-          color: '#FF3433',
-          members: ["Janek", "Mateusz"]
-        }
-      ]
-    },
-    {
-      name: "administracja",
-      groups: [      
-        {
-          id:0,
-          name: 'Kierownicy',
-          color: '#009844',
-          members: ["Jan Walecki", "Mateusz W."]
-        },
-        {
-          id:1,
-          name: 'Sekretariat',
-          color: '#17EE11',
-          members: ["Ola", "Pani Ewa"]
-        }
-      ]
-    },
-    {
-      name: "SEP",
-      groups: [      
-        {
-          id:0,
-          name: '1kV',
-          color: '#6FF1F5',
-          members: ["Kola", "Paweł"]
-        },
-        {
-          id:1,
-          name: '30kV',
-          color: '#0000F3',
-          members: ["Janek", "Mateusz C."]
-        }
-      ]
-    }];
   settings={
     multiobject: false,
     ilustrator: true
@@ -76,6 +24,7 @@ export class DataService {
   stock: any=[];
   items: any=[];
   sites: any=[];
+  groups: any=[];
 
   edit: boolean=false;
   toEdit:number=1;
@@ -83,7 +32,8 @@ export class DataService {
   employees: any=[ {} ];
 
   _HEADERS={
-    authorization: this.token
+    'Authorization': `${this.token}`,
+    'Content-Type' : 'application/json'
   }
   _GET={
     method: "GET",
@@ -99,6 +49,7 @@ export class DataService {
     this.update();
     this.groups=await this.pulldata("groups");
     this.items=await this.pulldata("items");
+    for( let item of this.items ) item.perms=JSON.parse(item.perms);
     this.employees=await this.pulldata("pracownicy");
     this.sites=await this.pulldata("sites");
   }
@@ -163,6 +114,29 @@ export class DataService {
       })
     });
     if(r.status==200){
+      return true;
+    }else{
+      console.log("ERROR! "+r.status);
+      return false;
+    }
+  }
+
+  async addNewEmployee(){
+    const r=await fetch('http://localhost:3000/employee/new', {
+      method: "POST",
+      body: JSON.stringify({})
+    });
+    if(r.status==200){
+      this.employees.push({
+        id: (await r.json()).id,
+        name: '',
+        position: '',
+        places: '',
+        qualifications: '',
+        notes: '',
+        tel: '',
+        img: 'https://t3.ftcdn.net/jpg/03/53/11/00/360_F_353110097_nbpmfn9iHlxef4EDIhXB1tdTD0lcWhG9.jpg'
+      });
       return true;
     }else{
       console.log("ERROR! "+r.status);

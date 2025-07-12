@@ -34,13 +34,14 @@
 }
 
 .btt{
-    background-color: #001834;
+    background-color: #003c80;
     color: #fff;
     font-size: 0.32cm;
     height: 4vh;
     border-radius: 0.5vh;
-    margin: 0.4vh 0.25vh 0 0.25vh;
+    margin: 0.4vh 0.2vh 0 0.2vh;
     cursor: pointer;
+    width: 50%;
 }
 
 .btK{
@@ -121,4 +122,8 @@
 
 .nImg input{
     height: 0.75cm;
+}
+
+input{
+    color: #000000;
 }

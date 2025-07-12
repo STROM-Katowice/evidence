@@ -11,4 +11,8 @@ export class GroupsComponent {
   
   constructor(public dataService: DataService){
   }
+
+  addGroup(cat:string){
+    console.log(cat);
+  }
 }

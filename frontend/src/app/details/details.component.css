@@ -2,7 +2,7 @@
     position: fixed;
     left: 50%;
     top:50%;
-    width: 15cm;
+    width: 18cm;
     max-width: 90vw;
     height: 15cm;
     max-height: 90vh;
@@ -20,6 +20,8 @@
     width: 6.2cm;
     height: 6.2cm;
     right:0;
+    padding: 4px 0 0 4px;
+    border-left: 1px solid #30009f;
 }
 
 .imgSelect-img{
@@ -73,4 +75,11 @@
 
 label{
     margin: 0.1cm 0;
+}
+
+.permised{
+    border: 1px solid #4c00ff;
+    padding: 0.05cm;
+    margin:0.05cm;
+    display: inline-block;
 }

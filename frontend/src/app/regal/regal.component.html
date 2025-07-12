@@ -1,7 +1,7 @@
 <div class="block">
     @for ( state of dataService.stock[id].val; track $index; let idx=$index){
         @let item=getItem(id, idx);
-        <div class="shelf" (click)="edit(item.id)">
+        <div class="shelf" [attr.id]="'item'+item.id" (click)="edit(item.id)">
             <img class="ilustration" [src]="item.img" [class]="state!=1 ? 'monochrome' : ''">
             <span class="name">{{item.name}}</span>
             <span class="font-red">{{convert(item.stamp)}}</span>

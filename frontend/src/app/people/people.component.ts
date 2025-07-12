@@ -1,9 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { DataService } from '../data.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-people',
-  imports: [],
+  imports: [ CommonModule ],
   templateUrl: './people.component.html',
   styleUrl: './people.component.css'
 })
@@ -21,7 +22,7 @@ export class PeopleComponent {
     const data={
       id: this.dataService.employees[this.id].id
     }
-    const r=await fetch('http://localhost:3000/delete', {
+    const r=await fetch('http://localhost:3000/employee/delete', {
       method: "POST",
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
@@ -42,7 +43,7 @@ export class PeopleComponent {
       val: newVal.value
     }
     console.log(data);
-    const r=await fetch('http://localhost:3000/employeeUpdate', {
+    const r=await fetch('http://localhost:3000/employee/update', {
       method: "POST",
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)

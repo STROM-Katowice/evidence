@@ -70,7 +70,7 @@ export class DetailsComponent {
     }
     const r1=await fetch('http://localhost:3000/item/img', {
       method: "POST",
-      headers: { 'Content-Type': 'application/json' },
+      headers: this.dataService._HEADERS,
       body: JSON.stringify(body)
     });
     if(r1.status!=200){
@@ -79,6 +79,34 @@ export class DetailsComponent {
     }
     console.log("OK");
     this.item.img=img
+  }
+
+  async addPerms(nap: string){
+    this.item.perms.push(nap);
+    this.changePerms();
+  }
+
+  async delPerms(deleted:string){   //SPRAWDZIĆ, ŻE GRUPA NIE NAZYWA SIĘ JAK PRACOWNIK
+    this.item.perms.splice(this.item.perms.indexOf(deleted), 1);
+    this.changePerms();
+  }
+
+  async changePerms(){
+    const stringified=JSON.stringify(this.item.perms);
+    console.log(stringified);
+    const body=JSON.stringify({
+      id:this.item.id,
+      perms: stringified
+    });
+    const r1=await fetch('http://localhost:3000/item/perms', {  //<- very sketchy shit
+      method: "POST",
+      headers: this.dataService._HEADERS,
+      body: body
+    });
+    if(r1.status!=200){
+      console.log("Odmowa serwera.");
+      return;
+    }
   }
 
   convert(dat:  number ){   //ZDUPLIKOWANE! SPRÓBOWAĆ USUNĄĆ
