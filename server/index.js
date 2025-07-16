@@ -361,3 +361,9 @@ app.post('/item/absence', async (req, res) => {
     console.log(resp);
     res.send({  });
 });
+
+app.post('/test', async (req, res) => {
+    res.send({ 
+        result: "Test successfull!!!"
+    });
+});
