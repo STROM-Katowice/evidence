@@ -24,7 +24,7 @@ export class DetailsComponent {
       id:this.item.id,
       name:name
     });
-    const r1=await fetch('http://localhost:3000/item/name', {  //<- very sketchy shit
+    const r1=await fetch('http://192.168.1.112:3000/item/name', {  //<- very sketchy shit
       method: "POST",
       headers: { 'Content-Type': 'application/json' },
       body: body
@@ -45,7 +45,7 @@ export class DetailsComponent {
       id: this.item.id,
       absence: a
     };
-    const r1=await fetch('http://localhost:3000/item/absence', {
+    const r1=await fetch('http://192.168.1.112:3000/item/absence', {
       method: "POST",
       headers: { 
         'Content-Type': 'application/json',
@@ -68,7 +68,7 @@ export class DetailsComponent {
       id: this.item.id,
       newUrl: img
     }
-    const r1=await fetch('http://localhost:3000/item/img', {
+    const r1=await fetch('http://192.168.1.112:3000/item/img', {
       method: "POST",
       headers: this.dataService._HEADERS,
       body: JSON.stringify(body)
@@ -98,7 +98,7 @@ export class DetailsComponent {
       id:this.item.id,
       perms: stringified
     });
-    const r1=await fetch('http://localhost:3000/item/perms', {  //<- very sketchy shit
+    const r1=await fetch('http://192.168.1.112:3000/item/perms', {  //<- very sketchy shit
       method: "POST",
       headers: this.dataService._HEADERS,
       body: body

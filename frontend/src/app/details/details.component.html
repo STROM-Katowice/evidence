@@ -21,7 +21,7 @@
       <input type="button" (click)="addPerms(perms.value)" class="btn" value="Dodaj">
       </div>
       <div>
-      <h6>Kliknij grupę/osobę, by usunąć uprawnienie</h6>
+      <h6>Kliknij grupę/osobę, by usunąć uprawnienie:</h6>
       @for( permised of item.perms; track permised ){
         <span class="permised" (click)="delPerms(permised)">{{ permised }}</span>
       }

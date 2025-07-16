@@ -42,7 +42,7 @@ export class DataService {
   
   async start(){
     const token=localStorage.getItem("token");
-    const res=await fetch('http://localhost:3000/login', this._GET)
+    const res=await fetch('http://192.168.1.112:3000/login', this._GET)
     if(res.status!=200){
       this.token="";
     }
@@ -56,7 +56,7 @@ export class DataService {
 
   async pulldata(type:string){
     console.log(type+": ");
-    const res=await fetch('http://localhost:3000/'+type, this._GET);
+    const res=await fetch('http://192.168.1.112:3000/'+type, this._GET);
     if(res.status==200){
       const ret=await res.json();
       console.log(ret);
@@ -69,7 +69,7 @@ export class DataService {
 
 
   update(){
-    const socket = new WebSocket('ws://localhost:8080');
+    const socket = new WebSocket('ws://192.168.1.112:8080');
     const x=this;
     socket.onmessage = function(event){
       const data=JSON.parse(event.data);
@@ -80,7 +80,7 @@ export class DataService {
   }
 
   async updateDB(values:string, thing:string, subthing:string){
-    const r=await fetch('http://localhost:3000/update', {
+    const r=await fetch('http://192.168.1.112:3000/update', {
       method: "POST",
       body: JSON.stringify({
         thing: thing,
@@ -96,7 +96,7 @@ export class DataService {
   }
 
   async getEmployees(){
-    const res=await fetch('http://localhost:3000/pracownicy')
+    const res=await fetch('http://192.168.1.112:3000/pracownicy')
     if(res.status==200){
       this.employees=await res.json();
       console.log(this.employees);
@@ -106,7 +106,7 @@ export class DataService {
   }
 
   async addNew(thing: string, type:string){
-    const r=await fetch('http://localhost:3000/new', {
+    const r=await fetch('http://192.168.1.112:3000/new', {
       method: "POST",
       body: JSON.stringify({
         thing: thing,
@@ -122,7 +122,7 @@ export class DataService {
   }
 
   async addNewEmployee(){
-    const r=await fetch('http://localhost:3000/employee/new', {
+    const r=await fetch('http://192.168.1.112:3000/employee/new', {
       method: "POST",
       body: JSON.stringify({})
     });
