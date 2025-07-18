@@ -3,6 +3,7 @@
   "dependencies": {
     "async-g-i-s": "^1.5.5",
     "axios": "^1.9.0",
+    "ble-host": "^1.0.3",
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "fs": "^0.0.1-security",
