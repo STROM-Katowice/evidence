@@ -204,3 +204,5 @@ async function getSlaves(location){
     };
     return r;
 }
+
+function unchange(){ change=0 }

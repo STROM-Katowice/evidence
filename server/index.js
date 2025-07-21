@@ -4,7 +4,7 @@ import mysql from 'mysql';
 import gis from 'async-g-i-s';
 import pass from './pass.json' with {type: 'json'};
 import WebSocket, { WebSocketServer } from 'ws';
-import { slaves, changed } from './modbushandling.js'
+import { slaves, changed, unchange } from './modbushandling.js'
 
 let location=1;     //location id: 1-firma; do zdynamizowania
 
@@ -56,7 +56,7 @@ wss.on('connection', function connection(ws) {
     if(changed==1 || first){
         first=false;
         ws.send(JSON.stringify(slaves));
-        changed=0;
+        unchange();
     }
   },500);
   ws.on('message', function incoming(message) {
