@@ -1,4 +1,5 @@
 // bt-mac.js
+/*
 import exec from 'child_process';
 import os from 'os';
 
@@ -62,3 +63,11 @@ findBtMac((err, mac) => {
   }
   console.log('Local Bluetooth MAC address:', mac);
 });
+*/
+
+fetch('http://localhost:3000/qualifications',{
+"method": "GET",
+"headers": {
+"authorization": "balljs"
+}
+}).then(x => console.log(x.status)); 

@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { DataService } from '../data.service';
 import { CommonModule } from '@angular/common';
+//import bcrypt from 'bcrypt'
 
 @Component({
   selector: 'app-people',
@@ -13,6 +14,7 @@ export class PeopleComponent {
   sqid:boolean=false;
   rfid:boolean=false;
   img:boolean=false;
+  passTemp:string="Strom74"
 
 
   constructor(public dataService: DataService){
@@ -54,6 +56,20 @@ export class PeopleComponent {
       console.log("ERROE! "+r.status);
     }
   }
+
+  async invite(pass:any){
+    if(pass.length<6){ console.log("za krótko"); return; }
+    if(pass.length>32){ console.log("za długie"); return; }
+    //pass=await this.hash(pass);
+    this.balls(pass, 'hash');
+  }
+  /*async hash(pass:string){
+    return await new Promise(async resolve => bcrypt.hash(pass, 10, (err, hash:string) => {
+      console.log(err);
+      console.log(hash);
+      resolve(hash);
+    }));
+  }*/
 
   delCard(){}
   addCard(){}

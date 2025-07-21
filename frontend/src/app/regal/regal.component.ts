@@ -30,9 +30,9 @@ export class RegalComponent {
   convert(dat:  number ){
     const d=new Date(dat*1000);
     let ds=d.getDate()+".";
-    if(d.getMonth()+1<10) ds+="0";
+    if(d.getMonth()<9) ds+="0";
     ds+=d.getMonth()+1+"."+d.getFullYear()+" "+d.getHours()+":";
-    if(d.getMinutes()<10) ds+="0";
+    if(d.getMinutes()<9) ds+="0";
     ds+=d.getMinutes()+1
     return ds;
   }

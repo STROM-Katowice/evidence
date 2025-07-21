@@ -118,6 +118,26 @@ export class DetailsComponent {
     ds+=d.getMinutes()+1
     return ds;
   }
+  regalNumer(){
+    const slave=this.dataService.stock.filter((x:any) => x.uID==this.item.slaveID)[0];
+    return /*BRAK ODPOWIEDNIEJ WARTOŚCI slave.pos*/ "Undef";
+  }
+  async status(num:number){
+    const body=JSON.stringify({
+      id:this.item.id,
+      status: num
+    });
+    const r1=await fetch('http://192.168.1.112:3000/item/status', {  //<- very sketchy shit
+      method: "POST",
+      headers: this.dataService._HEADERS,
+      body: body
+    });
+    if(r1.status!=200){
+      console.log("Odmowa serwera.");
+      return;
+    }
+    this.item.status=num;
+  }
 }
 
 

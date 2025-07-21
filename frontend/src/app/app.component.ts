@@ -22,6 +22,8 @@ export class AppComponent {
   s=0;
   a=false;
   site:any={};
+
+  constructor(public dataService: DataService){}
   ngOnInit(){
     setTimeout(()=>{
       this.changeSite("0");
@@ -44,5 +46,4 @@ export class AppComponent {
     return d.getFullYear();
   } 
   
-  constructor(public dataService: DataService){}
 }

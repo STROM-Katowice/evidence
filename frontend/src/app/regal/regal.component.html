@@ -7,7 +7,11 @@
             <span class="font-red">{{convert(item.stamp)}}</span>
             <span>{{item.owner}}</span>
         </div>
-        <div class="colorTag" [class]="state!=1 ? 'bgRed' : 'bgGreen' "></div>
+        <div class="colorTag" [class]="item.status==2 ? 'bgYellow' : state==0 ? 'bgRed' : 'bgGreen'">
+        @if(item.status===2){
+            <span>SKRADZIONE</span>
+        }
+        </div>
     }
 </div>
 <div class="offline">   

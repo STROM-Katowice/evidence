@@ -14,6 +14,9 @@
             <button class="btt btK" [ngClass]="dataService.employees[id].id==1 ? 'invis' : 'test'" (click)="sqid=true">△ SQID GAME ◻</button>
         </div>
         <input class="notes" #notes (change)="balls(notes, 'notes')" placeholder="Notatki" [attr.value]="dataService.employees[id].notes">
+        @if(1){     <!--do zmiany-->
+            <input class="pass" #invit (change)="invite(invit.value)" placeholder="Hasło Tymczasowe" [attr.value]="passTemp">
+        }
     }
 </div>
 @if( sqid ){

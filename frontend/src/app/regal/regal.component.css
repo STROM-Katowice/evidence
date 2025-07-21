@@ -32,12 +32,14 @@
     filter: grayscale(1);
 }
 .colorTag{
-    width:2vh;
-    height:2vh;
+    width:fit-content;
+    min-width: 1.4vh;
+    padding:0.3vh;
     position: relative;
     bottom: calc( 2vh + 4px );
     right:0;
     margin-bottom: -2vh;
+    font-weight: bold;
 }
 .edit{
     position: fixed;

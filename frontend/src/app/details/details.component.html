@@ -1,6 +1,6 @@
 <div class="details">
   <div class="position">
-    <span class="position">Urządzenie znajduje się na regale {{ "NaN" }}, półce {{ item.pos }} od góry. </span>
+    <span class="position">Urządzenie znajduje się na regale {{ regalNumer() }}, półce {{ item.pos }} od góry. </span>
     <input type="button" class="btn" value="Przenieś">
   </div>
   <div class="flex">
@@ -13,12 +13,22 @@
       <label>Ostatnio wzięte przez:<br>{{ item.owner }} dnia {{ convert(item.stamp) }}</label>
       <span>Uprawnienia:</span>
       <div class="flex">
-      <select #perms class="addPerms gray available">
+      <select #permsPer class="addPerms gray">
             @for( person of dataService.employees; track person ){
             <option>{{person.name}}</option>
             }
       </select>
-      <input type="button" (click)="addPerms(perms.value)" class="btn" value="Dodaj">
+      <input type="button" (click)="addPerms(permsPer.value)" class="btn" value="Dodaj">
+      <select #permsGru class="addPerms gray">
+            @for( type of dataService.groups; track type ){
+            <optgroup [attr.label]="type.name">
+              @for( group of type.groups; track group ){
+                <option [attr.value]="group.id">{{group.name}}</option>
+              }
+            </optgroup>
+            }
+      </select>
+      <input type="button" (click)="addPerms(permsGru.value)" class="btn" value="Dodaj">
       </div>
       <div>
       <h6>Kliknij grupę/osobę, by usunąć uprawnienie:</h6>
@@ -48,8 +58,15 @@
       }-->
   </div>
   <div class="flex buttons">
-    <input type="button" class="btn action" value="Oznacz jako zabrane">
-    <input type="button" class="btn action" value="Oznacz jako skradzione">
+    @if(0 || item.status!=0){
+      <input type="button" (click)="status(0)" class="btn action" value="Oznacz jako oddane">
+    }
+    @else{
+      <input type="button" (click)="status(1)" class="btn action" value="Oznacz jako zabrane">
+    }
+    @if(item.status!=2){
+      <input type="button" (click)="status(2)" class="btn action" value="Oznacz jako skradzione">
+    }
     <input type="button" (click)="dataService.edit=false" class="btn action bgGreen" value="Zamknij i zapisz">
     </div>
 </div>

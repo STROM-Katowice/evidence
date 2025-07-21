@@ -2,9 +2,9 @@
     position: fixed;
     left: 50%;
     top:50%;
-    width: 18cm;
+    width: 75vh;
     max-width: 90vw;
-    height: 15cm;
+    height: auto;
     max-height: 90vh;
     transform: translate(-50%, -50%);
     border: 4px solid #6e6e6e;
@@ -61,7 +61,7 @@
     padding: 5px 3px;
     margin-right: 0.1cm;
     border-radius: 0.1cm;
-    
+    min-width: 4cm;
 }
 
 .buttons{
@@ -71,6 +71,7 @@
 
 .column{
     padding-right: 0.2cm;
+    min-height: 8cm;
 }
 
 label{
@@ -82,4 +83,8 @@ label{
     padding: 0.05cm;
     margin:0.05cm;
     display: inline-block;
+}
+
+.events{
+    min-height: 5cm;
 }
