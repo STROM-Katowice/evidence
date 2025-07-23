@@ -34,13 +34,28 @@ const wss = new WebSocketServer({ port: 8080 });
 
 //obsługa kont, autoryzacji i zabezpieczeń przed atakami SQLinjection, RCE
 let tokens=["balls"]
-const whitelist=["/", "/test", "/qualifications", "/login", "/rejestr"]
+const whitelist=["/", "/qualifications", "/login", "/test"]
 app.use(async (req, res)=>{
     const token = req.headers.authorization;
     if(tokens.includes(token) || whitelist.includes(req.url)) return req.next();
     else res.status(403).json({});
 });
 
+app.get('/test', async (req, res) => {
+    const token = req.headers.authorization;
+    if(tokens.includes(token)){
+        //const t=DB(`SELECT * FROM employees WHERE token='${req.headers.token}'`);
+        const t=[{}];
+        res.send({ userdata: t[0] });
+    }else res.status(403).json({});
+});
+
+app.post('/login', async (req, res) => {
+    const t=DB(`SELECT * FROM employees WHERE login='${req.body.login}' AND hash='${req.body.hash}'`);
+    
+    if(t.length==1) res.send( { userdata: t[0] } );
+    else res.status(403).json({});
+});
 
 function purify(s){
     for(const a of s) if(a=="'") a="%27";
@@ -192,13 +207,6 @@ app.post('/item/status', async (req, res) => {
 app.get('/qualifications', async (req, res) => {
     const qual=await DB(`SELECT * FROM qualifications`);
     res.send(qual);
-});
-
-//testowanie połączenia
-app.get('/test', async (req, res) => {
-    res.send({ 
-        result: "Test successfull!!!"
-    });
 });
 
 //śmieszna funkcja zwracająca obrazki z googla o tematyce podanej w argumencie

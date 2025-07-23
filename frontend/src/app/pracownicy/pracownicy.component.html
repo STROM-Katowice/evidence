@@ -1,0 +1,9 @@
+
+<div class="container">
+    @for( person of dataService.employees; track person; let idx=$index){
+        <app-people [id]="idx"></app-people>
+    }
+</div>
+<div class="add" (click)="dataService.addNewEmployee()">
+    <span>DODAJ</span>
+</div>

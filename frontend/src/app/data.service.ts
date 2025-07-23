@@ -1,4 +1,5 @@
 import { inject, Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +10,10 @@ export class DataService {
   constructor(){
     this.start();
   }
+  private router = inject(Router);
 
   token=localStorage.getItem("token");
+  remote='http://localhost:3000/';
   account: any={
     id: 100,
     name: "Deweloper",
@@ -36,15 +39,17 @@ export class DataService {
     'Content-Type' : 'application/json'
   }
   _GET={
-    method: "GET",
-    Headers: this._HEADERS
+    "method": "GET",
+    "headers": this._HEADERS
   }
   
   async start(){
-    const token=localStorage.getItem("token");
-    const res=await fetch('http://192.168.1.112:3000/login', this._GET)
+    const res=await fetch(this.remote+'test', this._GET);
     if(res.status!=200){
       this.token="";
+      console.log("Brak autoryzacji");
+      this.router.navigate(['/login']);
+      return;
     }
     this.update();
     this.groups=await this.pulldata("groups");
@@ -56,7 +61,7 @@ export class DataService {
 
   async pulldata(type:string){
     console.log(type+": ");
-    const res=await fetch('http://192.168.1.112:3000/'+type, this._GET);
+    const res=await fetch(this.remote+type, this._GET);
     if(res.status==200){
       const ret=await res.json();
       console.log(ret);
@@ -80,7 +85,7 @@ export class DataService {
   }
 
   async updateDB(values:string, thing:string, subthing:string){
-    const r=await fetch('http://192.168.1.112:3000/update', {
+    const r=await fetch(this.remote+'update', {
       method: "POST",
       body: JSON.stringify({
         thing: thing,
@@ -96,7 +101,7 @@ export class DataService {
   }
 
   async getEmployees(){
-    const res=await fetch('http://192.168.1.112:3000/pracownicy')
+    const res=await fetch(this.remote+'pracownicy')
     if(res.status==200){
       this.employees=await res.json();
       console.log(this.employees);
@@ -106,7 +111,7 @@ export class DataService {
   }
 
   async addNew(thing: string, type:string){
-    const r=await fetch('http://192.168.1.112:3000/new', {
+    const r=await fetch(this.remote+'new', {
       method: "POST",
       body: JSON.stringify({
         thing: thing,
@@ -122,7 +127,7 @@ export class DataService {
   }
 
   async addNewEmployee(){
-    const r=await fetch('http://192.168.1.112:3000/employee/new', {
+    const r=await fetch(this.remote+'employee/new', {
       method: "POST",
       body: JSON.stringify({})
     });

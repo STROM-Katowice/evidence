@@ -1,24 +1,24 @@
 <div class="header">
-    <div class="menu-item" (click)="v=0" [class]="v==0 ? 'bdBtmBlue' : ''">
+    <div class="menu-item" routerLink="" [class]="v==0 ? 'bdBtmBlue' : ''">
         <span>Regały</span>
     </div>
     <div class="menu-item" [class]="v==1 ? 'bdBtmBlue' : ''">
-        <span (click)="v=1">Ludzie i grupy</span><span> ⌵</span>
+        <span routerLink="pracownicy">Ludzie i grupy</span><span> ⌵</span>
         <div class="moreCats">
-            <span (click)="v=1">Pracownicy</span>
-            <span (click)="v=11">Grupy i Brygady</span>
-            <span (click)="v=12">Kwalifikacje</span>
+            <span routerLink="pracownicy">Pracownicy</span>
+            <span routerLink="brygady">Grupy i Brygady</span>
+            <span routerLink="kwalifikacje">Kwalifikacje</span>
         </div>
     </div>
     @if( dataService.settings.multiobject ){
-    <div class="menu-item" (click)="v=4" [class]="v==4 ? 'bdBtmBlue' : ''">
+    <div class="menu-item" routerLink="obiekty" [class]="v==4 ? 'bdBtmBlue' : ''">
         <span>Obiekty</span>
     </div>
     }
-    <div class="menu-item" (click)="v=2" [class]="v==2 ? 'bdBtmBlue' : ''">
+    <div class="menu-item" routerLink="zdarzenia" [class]="v==2 ? 'bdBtmBlue' : ''">
         <span>Zdarzenia</span>
     </div>
-    <div class="menu-item" (click)="v=3" [class]="v==3 ? 'bdBtmBlue' : ''">
+    <div class="menu-item" routerLink="ustawienia" [class]="v==3 ? 'bdBtmBlue' : ''">
         <span>Ustawienia</span>
     </div>
 
@@ -32,70 +32,6 @@
     }
 </div>
 
-@if(v==0){
-    <div class="flex">
-        <div class="siteBar">
-            <img [attr.src]="site.img" class="siteImg">
-            <select #sselect class="siteSelect" (change)="changeSite(sselect.value)">
-                @for( lsite of dataService.sites; track lsite.name; let idx=$index){
-                    <option class="siteOption" [attr.value]="idx">{{lsite.name}}</option>
-                }
-            </select>
-            <div class="siteData">
-                @if( site.wy=="0" ){
-                    <span>TERAZ: {{ site.last }}</span>
-                    <span>Wejście: {{ site.we }}</span>
-                }
-                @else{
-                    <span>Ostatnia osoba:</span><span>{{ site.last }}</span>
-                    <span>Wejście do magazynu: {{ site.wy }}</span>
-                }
-                <span>Położenie: <a href="https://maps.google.com">{{ site.location }}</a></span>
-                <span>IP: {{ site.ip }}</span>
-                <span>Brygady:</span>
-                @for( brigade of getBrigades(); track brigade.id ){
-                    <span>{{brigade.name}}</span>
-                }
-                <span>Uprawnieni:</span>
-                {{site.perms}}
-                <button class="btn">EDYTUJ</button>
-            </div>
-        </div>
-        <div class="canvas">
-        @for( regal of dataService.stock; track regal.mID; let idx=$index){
-            
-        <app-regal [id]="idx" class="main" [attr.model]="regal.model"></app-regal>
-        }
-        </div>
-    </div>
-}
+<router-outlet></router-outlet>
 
-@if(v==1){
-    <div class="container">
-    @for( person of dataService.employees; track person; let idx=$index){
-        <app-people [id]="idx"></app-people>
-    }
-    </div>
-    <div class="add" (click)="dataService.addNewEmployee()">
-        <span>DODAJ</span>
-    </div>
-}
-@if(v==11){
-    <app-groups></app-groups>
-}
-@if(v==12){
-    <app-quals></app-quals>
-}
-
-@if(v==2){
-<app-events></app-events>
-}
-
-@if(v==3){
-<app-settings></app-settings>
-}
-
-@if(dataService.edit){
-    <app-details></app-details>
-}
 <a href="http://strom.katowice.pl" class="footer a">© Strom Katowice {{getYear()}}</a>

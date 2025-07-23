@@ -24,7 +24,7 @@ export class PeopleComponent {
     const data={
       id: this.dataService.employees[this.id].id
     }
-    const r=await fetch('http://localhost:3000/employee/delete', {
+    const r=await fetch(this.dataService.remote+'employee/delete', {
       method: "POST",
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
@@ -45,7 +45,7 @@ export class PeopleComponent {
       val: newVal.value
     }
     console.log(data);
-    const r=await fetch('http://192.168.1.112:3000/employee/update', {
+    const r=await fetch(this.dataService.remote+'/employee/update', {
       method: "POST",
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)

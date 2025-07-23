@@ -1,0 +1,35 @@
+<div class="flex">
+    <div class="siteBar">
+        <img [attr.src]="site.img" class="siteImg">
+        <select #sselect class="siteSelect" (change)="changeSite(sselect.value)">
+            @for( lsite of dataService.sites; track lsite.name; let idx=$index){
+                <option class="siteOption" [attr.value]="idx">{{lsite.name}}</option>
+            }
+        </select>
+        <div class="siteData">
+            @if( site.wy=="0" ){
+                <span>TERAZ: {{ site.last }}</span>
+                <span>Wejście: {{ site.we }}</span>
+            }
+            @else{
+                <span>Ostatnia osoba:</span><span>{{ site.last }}</span>
+                <span>Wejście do magazynu: {{ site.wy }}</span>
+            }
+            <span>Położenie: <a href="https://maps.google.com">{{ site.location }}</a></span>
+            <span>IP: {{ site.ip }}</span>
+            <span>Brygady:</span>
+            @for( brigade of getBrigades(); track brigade.id ){
+                <span>{{brigade.name}}</span>
+            }
+            <span>Uprawnieni:</span>
+            {{site.perms}}
+            <button class="btn">EDYTUJ</button>
+        </div>
+    </div>
+    <div class="canvas">
+    @for( regal of dataService.stock; track regal.mID; let idx=$index){
+        
+    <app-regal [id]="idx" class="main" [attr.model]="regal.model"></app-regal>
+    }
+    </div>
+</div>

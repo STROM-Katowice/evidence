@@ -22,7 +22,7 @@
 }
 .notes{
     grid-column-start: 2;
-    grid-column-end: 5;
+    grid-column-end: 4;
     resize: none;
     height: 0.5cm;
     border-bottom: 1px solid #d0d0d0;

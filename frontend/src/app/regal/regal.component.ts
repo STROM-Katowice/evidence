@@ -1,9 +1,11 @@
 import { Component, Input } from '@angular/core';
 import  { DataService } from '../data.service';
 import { isEmpty } from 'rxjs';
+import { DetailsComponent } from '../details/details.component';
 
 @Component({
   selector: 'app-regal',
+  imports: [ DetailsComponent ],
   templateUrl: './regal.component.html',
   styleUrl: './regal.component.css'
 })
