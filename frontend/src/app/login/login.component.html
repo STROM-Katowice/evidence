@@ -1,1 +1,18 @@
-<p>login works!</p>
+<div class="wrapper">
+    <div class="decor">
+    <!--<img src="./assets/antycygan.png" class="decor">-->
+    <img src="./assets/cat.png">
+    </div>
+    <div class="loginform">
+        <label>
+            IMIĘ I NAZWISKO:
+            <input #login name="login" type="login">
+        </label>
+        <label>
+            HASŁO:
+            <input #pass name="pass" type="password">
+        </label>
+        <button class="btt" (click)="dataService.login(login.value, pass.value)">ZALOGUJ</button>
+        <p>Udzielić dostępu do systemu lub zresetować hasło może tylko szef lub osoby przez niego upoważnione.</p>
+    </div>
+</div>

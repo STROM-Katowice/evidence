@@ -1,0 +1,11 @@
+<div class="wrapper margin">
+    @for(item of filter(); track item;){
+        <div class="shelf" [attr.id]="'item'+item.id">
+            <img class="ilustration" [src]="item.img">
+            <span class="name">{{item.name}}</span>
+
+            Zabrane: <span class="font-red">{{convert(item.stamp)}}</span>
+            Oddać do: <span class="font-red">{{convert(item.absence)}}</span>
+        </div>
+    }
+</div>

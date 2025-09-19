@@ -1,0 +1,50 @@
+.wrapper{
+    width: 20cm;
+    height: 10cm;
+    aspect-ratio: 2/1;
+    max-width: 95vw;
+    max-height: 95vh;
+    background-color: black;
+    border: 2px solid #676789;
+    display: flex;
+    flex-direction: row;
+    left: 50vw;
+    top: 50vh;
+    transform: translate(50%, 50%);
+}
+.decor{
+    width: 50%;
+    padding: 4%;
+    border-right: 2px solid #676789;
+}
+.decor img{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width:42%;
+}
+.loginform{
+    width: 50%;
+    margin: 4%;
+
+}
+.loginform p{
+    text-align: justify;
+    position: absolute;
+    bottom: 2%;
+    right:2%;
+    width: 46%;
+}
+input{
+    border-radius: 6px;
+    border-bottom: 3px solid #064286;
+    margin-bottom: 0.5cm;
+    color: black;
+    font-size:0.5cm;
+    width:calc(100% - 0.4cm);
+    padding: 0.2cm;
+}
+.btt{
+    width: 100%;
+    height: 1cm;
+}

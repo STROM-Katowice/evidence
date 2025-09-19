@@ -13,17 +13,24 @@
             }
             @else{
                 <span>Ostatnia osoba:</span><span>{{ site.last }}</span>
-                <span>Wejście do magazynu: {{ site.wy }}</span>
+                <span>Wyjście: {{ site.wy }}</span>
             }
-            <span>Położenie: <a href="https://maps.google.com">{{ site.location }}</a></span>
-            <span>IP: {{ site.ip }}</span>
+            <span>Położenie:<br>
+                <a target="_blank" [attr.href]="'https://google.com/maps/place/@'+reformat(site.location)+',224m/data=!3m1!1e3'">{{ site.location }}</a>
+            </span>
+            <span>IP: {{ site.IP }}</span>
             <span>Brygady:</span>
             @for( brigade of getBrigades(); track brigade.id ){
                 <span>{{brigade.name}}</span>
             }
-            <span>Uprawnieni:</span>
-            {{site.perms}}
-            <button class="btn">EDYTUJ</button>
+            <span>Uprawnieni do otw. magazynu:</span>
+            @for(x of site.perms; track x; let idx=$index){
+                @if(idx!=0){,<br>}
+                {{x.slice(1)}}}
+            <div class="bottom">
+                <button class="btn edit" (click)="a=true">EDYTUJ</button>
+                <h6 align="justify">Aby dodać nowy obiekt, ustaw adres IP głównego serwera jako serwer nad-rzędny w ustawieniach serwera obiektu podrzędnego. Pamiętaj, aby otworzyć port 443 lub 80 na serwerze nadrzęd-nym do internetu.</h6>
+            </div>    
         </div>
     </div>
     <div class="canvas">
@@ -33,3 +40,62 @@
     }
     </div>
 </div>
+
+@if(a){
+    <div class="wrapper">
+        <div class="flex">
+            <div class="params">
+                <label>Nazwa: </label>
+                <input #name (change)="changeName(name.value)" class="itemData gray" [attr.value]="site.name"><br>
+                <label>Położenie: </label>
+                <input #loc (change)="changeLocation(loc.value)" class="itemData gray" [attr.value]="site.location"><br>
+                <label>Adres obrazka: </label>
+                <input #img (change)="changeImg(img.value)" class="itemData gray" [attr.value]="site.img"><br>
+                
+                <p>Brygadami zarządza się z panelu <a class="underline" (click)="dataService.route('/grupy')">GRUPY I BRYGADY</a>.</p>
+                <span>Uprawnieni do otwarcia magazynu:</span>
+                <div class="flex">
+                <select #permsPer class="addPerms fontBlack">
+                    @for( person of dataService.employees; track person ){
+                    <option [attr.value]="'p'+person.name">{{person.name}}</option>
+                    }
+                </select>
+                <button (click)="addPerms(permsPer.value)" class="btn">Dodaj</button>
+                @if(dataService.groups.length>0){
+                <select #permsGru class="addPerms fontBlack">
+                    @for( type of dataService.groups; track type ){
+                    <optgroup [attr.label]="type.name">
+                        @for( group of type.grps; track group ){
+                        <option [attr.value]="'g'+group.name">{{group.name}}</option>
+                        }
+                    </optgroup>
+                    }
+                </select>
+                <button (click)="addPerms(permsGru.value)" class="btn">Dodaj</button>
+                }
+                </div>
+                <div class="perms">
+                <h6>Kliknij grupę/osobę, by usunąć uprawnienie:</h6>
+                @for( permised of site.perms; track permised ){
+                <span [attr.class]="permised[0]=='g' ? 'permised borderLime' : 'permised'" (click)="delPerms(permised)">{{ permised.slice(1) }}</span>
+                }
+                </div>
+            </div>
+            <div class="imgdiv">
+                <img [attr.src]="site.img" class="img">
+                <label for="file" class="btn">Wczytaj obrazek z pliku</label>
+                <input #imgg (change)="upload(imgg)" id="file" type="file" class="invis">
+            </div>
+        </div>
+        <div class="flex">
+            @if(dataService.account.status=="ADMIN"){
+                <button class="btt bgRed" (click)="delSite()">Usuń Obiekt</button>
+            }@else {
+                <p></p><!--REZERWA-->
+            }
+            <button class="btt" (click)="a=false">Odrzuć zmiany [!]</button>
+            <button class="btt" (click)="a=false">Zapisz i zamknij</button>
+
+        </div>
+    </div>
+}

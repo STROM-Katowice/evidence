@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { DataService } from './data.service';
 import { SearchComponent } from './search/search.component';
-import {RouterLink} from '@angular/router';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -12,18 +12,16 @@ import {RouterLink} from '@angular/router';
 })
 export class AppComponent {
   title = 'ANTYCYGAN';
-  v=0;
-  s=0;
   a=false;
 
   constructor(public dataService: DataService){}
 
-  goto(url:string){
-    location.href=url;
-  }
   getYear(){
     const d=new Date();
     return d.getFullYear();
   } 
-  
+  logout(){
+    localStorage.setItem("token", "0");
+    location.href="http://localhost:4200";
+  }
 }

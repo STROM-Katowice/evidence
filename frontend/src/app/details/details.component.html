@@ -19,6 +19,7 @@
             }
       </select>
       <input type="button" (click)="addPerms(permsPer.value)" class="btn" value="Dodaj">
+      @if(dataService.groups.length>0){
       <select #permsGru class="addPerms gray">
             @for( type of dataService.groups; track type ){
             <optgroup [attr.label]="type.name">
@@ -29,6 +30,7 @@
             }
       </select>
       <input type="button" (click)="addPerms(permsGru.value)" class="btn" value="Dodaj">
+      }
       </div>
       <div>
       <h6>Kliknij grupę/osobę, by usunąć uprawnienie:</h6>

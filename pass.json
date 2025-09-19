@@ -1,0 +1,9 @@
+{
+    "database": {
+        "host": "db4free.net",
+        "port": 3306,
+        "database": "stromkato",
+        "user": "stromkato",
+        "password": "Qw9e]PqG5de@tXs"
+    }
+}

@@ -1,36 +1,42 @@
+@if(dataService.getRoute()!="/login"){
 <div class="header">
-    <div class="menu-item" routerLink="" [class]="v==0 ? 'bdBtmBlue' : ''">
-        <span>Regały</span>
+    <div class="menu_item" routerLink="" [class]="dataService.getRoute()=='/' ? 'bdBtmBlue' : ''">
+        <span>Sprzęt</span>
     </div>
-    <div class="menu-item" [class]="v==1 ? 'bdBtmBlue' : ''">
-        <span routerLink="pracownicy">Ludzie i grupy</span><span> ⌵</span>
+    <div class="menu_item" [class]="dataService.getRoute()=='/pracownicy' || dataService.url=='czaspracy' ? 'bdBtmBlue' : ''">
+        <span routerLink="pracownicy">Pracownicy</span><span> ⌵</span>
         <div class="moreCats">
-            <span routerLink="pracownicy">Pracownicy</span>
-            <span routerLink="brygady">Grupy i Brygady</span>
+            <span routerLink="czaspracy">Czas Pracy</span>
             <span routerLink="kwalifikacje">Kwalifikacje</span>
         </div>
     </div>
-    @if( dataService.settings.multiobject ){
-    <div class="menu-item" routerLink="obiekty" [class]="v==4 ? 'bdBtmBlue' : ''">
-        <span>Obiekty</span>
+    <div class="menu_item" routerLink="grupy" [class]="dataService.getRoute()=='/grupy' ? 'bdBtmBlue' : ''">
+        <span>Grupy i brygady</span>
     </div>
-    }
-    <div class="menu-item" routerLink="zdarzenia" [class]="v==2 ? 'bdBtmBlue' : ''">
+    <div class="menu_item" routerLink="zdarzenia" [class]="dataService.getRoute()=='/zdarzenia' ? 'bdBtmBlue' : ''">
         <span>Zdarzenia</span>
-    </div>
-    <div class="menu-item" routerLink="ustawienia" [class]="v==3 ? 'bdBtmBlue' : ''">
-        <span>Ustawienia</span>
     </div>
 
     <app-search class="grow"></app-search>
     <div class="account" (click)="a=!a">
         <img [attr.src]="dataService.account.img">
-        Deweloper
+        <span>Moje konto</span>
     </div>
-    @if( a ){
-        <div class="acc-details">Element twoje konto w budowie</div>
+    @if(a){
+    <div class="acc-details">
+        <a href="#">Mój czas pracy</a>
+        <a href="#">Sprzęt na moim stanie</a>
+        @if(this.dataService.account.perms.includes("nfc") || this.dataService.account.perms.includes("WSZYSTKIE")){ <a routerLink="nfc">Edytor NFC (G CHROME)</a> }
+        @if(this.dataService.account.perms.includes("software") || this.dataService.account.perms.includes("WSZYSTKIE")){ <a href="#">Programy</a> }
+        @if(this.dataService.account.perms.includes("dysk") || this.dataService.account.perms.includes("WSZYSTKIE")){ <a href="#">Dysk</a> }
+        @if(this.dataService.account.perms.includes("vpn") || this.dataService.account.perms.includes("WSZYSTKIE")){ <a href="#">Dostęp do SSH</a> }
+        <!--@if(this.dataService.account.perms.includes("solar") || this.dataService.account.perms.includes("WSZYSTKIE")){ <a href="#">Zarządzanie solary</a> }-->
+        <a routerLink="ustawienia">Ustawienia</a>
+        <button class="btt logout" (click)="logout()">Wyloguj się</button>
+    </div>
     }
 </div>
+}
 
 <router-outlet></router-outlet>
 

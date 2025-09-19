@@ -1,19 +1,15 @@
 <div class="content">
-    @for(category of dataService.groups; track category ){
-        <h4>{{ category.name }}</h4>
-        <button class="btn add" (click)="addGroup(category.name)">Dodaj</button>
+    @for(cat of groups(); track cat){
+        <input #catt class="catName" (dblclick)="catt.readOnly=false" (change)="catname(dataService.groups[cat][0].category, catt.value)" [attr.value]="dataService.groups[cat][0].category" readonly>
         <div class="category">
-            @for(group of category.groups; track group ){
-                <div class="group">
-                    <span>{{ group.name }}</span>
-                    <div class="group-color" [attr.style]="'background-color:'+group.color"></div>
-                    <div class="members">
-                        @for(mem of group.members; track mem ){
-                            <span>{{ mem }}</span>
-                        }
-                    </div>
-                </div>
-            }    
+            @for(group of dataService.groups[cat]; track group; let idy=$index){
+                <app-group [cat]="cat" [gr]="idy"></app-group>
+            }
+            <button class="newGroup" (click)="addGroup(cat)"></button>   
         </div>
     }
+</div>
+
+<div class="add" (click)="this.addCategory()">
+    <span>DODAJ KATEGORIĘ</span>
 </div>

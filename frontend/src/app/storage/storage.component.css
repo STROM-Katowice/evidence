@@ -7,14 +7,40 @@
     display: flex;
     flex-direction: column;
     background-color: #030011;
-    min-height: 97vh;
-    width: min(18vw, 6.5cm);
+    min-height: calc(100vh - 0.9cm);
+    width: 6.5cm;
+    border-right: 1px solid #4e4e4e;
 }
 
-.siteData .btn{
+.addPerms{
+    padding: 5px 3px;
+    margin-right: 0.1cm;
+    border-radius: 0.1cm;
+    min-width: 4cm;
+}
+.params{
+    width: 75%;
+    border-left: 2x solid #080034;
+}
+.params label{
+    width: 3.5cm;
+    display: inline-block;
+}
+
+
+.imgdiv{
+    width: 5.5cm;
+}
+
+.img{
+    width:100%;
+}
+
+.bottom{
     position: absolute;
-  bottom: 3vh;
-  width: min(calc( 18vw - 0.3cm ), 6.2cm);
+    bottom: 0.5cm;
+    width: 6.2cm;
+    /*width: min(calc( 18vw - 0.3cm ), 6.2cm);*/
 }
 
 .siteSelect{
@@ -33,4 +59,53 @@
 
 .siteImg{
     aspect-ratio: 1/1;
+}
+
+.wrapper{
+    position: fixed;
+    left: 50%;
+    top:50%;
+    width: 18cm;
+    height: auto;
+    max-height: 90vh;
+    transform: translate(-50%, -50%);
+    border: 4px solid #6e6e6e;
+    background-color: #040216;
+    z-index: 999;
+    padding: 0.3cm;
+}
+.wrapper input{
+    height:0.6cm;
+    border: 1px solid gray;
+    color: #030011;
+    margin-bottom: 0.2cm;
+    min-width: 8.5cm;
+}
+p{
+    margin-bottom: 0.4cm;
+}
+
+.perms{
+    min-height: 5cm;
+}
+
+.imgdiv label{
+    width: 5.1cm;
+    text-align: center;
+    display: inline-block;
+    margin-top: 0.25cm;
+}
+
+
+.permised{
+    border: 1px solid #4c00ff;
+    padding: 0.05cm;
+    margin:0.05cm;
+    display: inline-block;
+    cursor: crosshair;
+}
+
+.edit{
+    width: 6.1cm !important;
+    margin-bottom: 0.25cm;
 }

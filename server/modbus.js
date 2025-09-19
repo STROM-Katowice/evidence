@@ -1,6 +1,5 @@
 import ModbusRTU from "modbus-serial";
-import mysql from 'mysql';
-import pass from './pass.json' with {type: 'json'};
+import { DB } from "./DB.js";
 
 const client = new ModbusRTU();
 
@@ -9,17 +8,6 @@ export let slaves=[];
 export let changed=1;
 let sym=0;
 
-const dtb = mysql.createPool(pass.database);
-async function DB(query){
-    const resp=await new Promise((resolve, reject) => {
-        dtb.query(query, (error, results) => {
-            if (error) reject(error);
-            resolve(results);
-        });       
-    });
-    return resp;     
-}
-    
 try{
     await client.connectRTUBuffered("/tty/USB0", { baudRate: 9600 });
 }catch(e){
@@ -205,4 +193,4 @@ async function getSlaves(location){
     return r;
 }
 
-export function unchange(){ change=0 }
+export function unchange(){ changed=0 }

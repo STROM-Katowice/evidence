@@ -1,0 +1,34 @@
+<div class="group">
+    <input #col type="color" (change)="changeColor(col.value)" class="color" [attr.value]="workgroup.color">
+    <input class="name" #name readonly (dblclick)="name.readOnly=false" (change)="newName(name)" [attr.value]="workgroup.name">
+    <span class="more" (click)="more(list)">⌵</span>
+    <div class="members">
+        @if(i){
+            <div>
+                <select #member class="addPerms gray">
+                @for( person of dataService.employees; track person ){
+                    <option>{{person.name}}</option>
+                }
+                </select>
+                <input type="button" (click)="addMember(member.value)" class="btn addBtn" value="Dodaj">
+            </div>
+            <h6>Kliknij osobę, by usunąć z grupy:</h6>
+        }
+        <div #list class="list">
+        @for(mem of workgroup.members; track mem ){
+            <span class="member" (click)="delMember(mem)">{{ mem }}</span>
+        }
+        </div>
+        @if(i){
+        <div class="bottomBar">
+            <input type="button" (click)="deleteGroup()" class="btn bgRed del" value="Usuń Grupę">
+            <input type="button" (click)="1" class="btn" value="Przenieś">
+            @if(this.workgroup.category=="Brygady" && brig){
+                <button (click)="brig=!brig" class="btn bryg">Wybierz<br>brygadzistę</button>
+            }@else if(!brig){
+                <button (click)="brig=!brig" class="btn bryg bgGreen">Kliknij na<br>wybraną osobę</button>
+            }
+        </div>
+        }
+    </div>
+</div>

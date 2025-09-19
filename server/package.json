@@ -8,10 +8,13 @@
     "express": "^4.21.2",
     "fs": "^0.0.1-security",
     "modbus-serial": "^8.0.19",
+    "multer": "^2.0.2",
     "mysql": "^2.18.1",
-    "node-ble": "^1.13.0",
+    "noble": "^0.0.2",
+    "node-ble": "^0.0.0",
     "node-hid": "^3.1.2",
     "querystring": "^0.2.1",
+    "serialport": "^13.0.0",
     "ws": "^8.18.2"
   }
 }

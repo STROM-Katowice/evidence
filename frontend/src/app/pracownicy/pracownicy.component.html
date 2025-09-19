@@ -1,9 +1,210 @@
 
 <div class="container">
-    @for( person of dataService.employees; track person; let idx=$index){
-        <app-people [id]="idx"></app-people>
+    @for( person of dataService.employees; track person; let id=$index){
+        <div class="kolega" [attr.i]="'searchID'+person.id" (click)="squidder(1, id)">
+            <img class="photo photo-main" (click)="img=!img" [attr.src]="person.img">
+            <label>{{person.name}}&nbsp;</label>
+            <label>{{person.position}}&nbsp;</label>
+            <label>{{person.tel}}&nbsp;</label>
+            <label>---&nbsp;</label>
+            <label>{{person.notes}}&nbsp;</label>
+        </div>
     }
 </div>
+
+@if( sqid==1 ){
+    <div class="wrapper d3">
+        <label>[Tytuł], Imię i nazwisko: </label>
+        <input #nam (change)="update(nam.value, 'name')" [attr.value]="dataService.employees[cid].name" type="text">
+        <img class="photo-det" [attr.src]="dataService.employees[cid].img">
+        <label>Stanowisko: </label><input #pos (change)="update(pos.value, 'position')" [attr.value]="dataService.employees[cid].position" type="text">
+        <label>Telefon: </label><input #tel (change)="update(tel.value, 'tel')"  [attr.value]="dataService.employees[cid].tel" type="text">@if(0){ <button class="btt">Zmień</button> }
+        <label>Status: </label>
+        <select #groups class="addPerms gray" (change)="update(groups.value, 'groups')"  [attr.value]="dataService.employees[cid].ststus" type="text">
+                <option value=""> </option>
+                <option value="nor">Normalne</option>
+                <option value="bryg">Brygadzista</option>
+                <option value="ogr">Ograniczone</option>
+                <option value="ADMIN">Administrator</option>
+            </select>
+        <label>ID karty pracowniczej: </label><input #idCard (change)="update(idCard.value, 'idCard')"  [attr.value]="dataService.employees[cid].idCard" type="text">
+        <label>Obrazek: </label><input #img (change)="update(img.value, 'img')"  [attr.value]="dataService.employees[cid].img" type="text">
+        <label>Notatki: </label><input #notes (change)="update(notes.value, 'notes')"  [attr.value]="dataService.employees[cid].notes" type="text">
+        <button class="btt">Wczytaj z pliku</button>
+        <label>Firma zewnętrzna: 
+            <label class="switch">
+                <input [attr.checked]="dataService.employees[cid].outsiders" #outsiders type="checkbox" (change)="check(outsiders.value)">
+                <span class="slider blue"></span>
+            </label>
+        </label>
+        <label>Rezerwa: 
+            <label class="switch">
+                <input [attr.checked]="true" #outsiders type="checkbox" (change)="1">
+                <span class="slider blue"></span>
+            </label>
+        </label>
+        <p></p>
+        <div class="events">
+
+        </div>
+        @if(dataService.employees[cid].status!="ADMIN" || dataService.account.id==1){
+            <button class="btt bgRed"  (click)="squidder(4, cid)">Zwolnij pracownika</button>
+        }@else if(dataService.employees[cid].status=="ADMIN"){
+            <p>Zwolnienie pracownika ze statusem ADMIN możliwe tylko przez szefa.</p>
+        }@else{
+            <p></p>
+        }
+        @if(dataService.employees[cid].status=="OFFLINE"){
+            <button class="btt" (click)="squidder(2, cid)">Utwórz konto<br> w systemie</button>
+        }@else{
+            <button class="btt" (click)="squidder(3, cid)">Zarządzaj uprawnie-niami&nbsp;w&nbsp;systemie</button>
+        }
+        <!--<button class="btt btK"  (click)="squidder(4, cid)">△ SQID GAME ◻</button>
+        <button class="btt" (click)="sqid=0">Odrzuć zmiany</button>-->
+        <button class="btt" (click)="sqid=0">Zamknij</button>
+    </div>
+}
+
+@if( sqid==2 ){
+    <div class="wrapper margin">
+        @if(dataService.employees[cid].status=="OFFLINE"){
+        <p>Przydzielanie dostępu do systemu antycygan dla: <span>{{ dataService.employees[cid].name }}</span></p>
+        <label>Tryb konta:</label>
+        <select class="addPerms gray" #tryb (change)="check(tryb.value)">
+            <option value=""> </option>
+            <option value="nor">Normalne</option>
+            <option value="bryg">Brygadzista</option>
+            <option value="ogr">Ograniczone</option>
+            <option value="ADMIN">Administrator</option>
+        </select>
+        }@else {
+            <p>Resetowanie hasła do systemu antycygan dla: <span>{{ dataService.employees[cid].name }}</span></p>
+        }
+        @if(chosen || dataService.employees[cid].status!="OFFLINE"){
+            <div class="flex row">
+            <span>Hasło:</span>
+            <input class="randpass" #nuPass [attr.value]="generatePassword()"><button class="btt" (click)="copy(nuPass)">Kopiuj</button><button class="btt" (click)="nuPass.value=generatePassword()">Wygeneruj inne hasło</button>
+            </div>
+            <button class="btt bgGreen" (click)="sqid=0; createAccount()">Utwórz konto</button>
+        }@else {
+            <p class="fontRed">Aby utworzyć konto w systemie, najpier wybierz jego profil powyżej.</p>
+        }
+    </div>
+}
+
+@if( sqid==3 ){
+    <div class="wrapper flex">
+    <div class="menu">
+        <span class="left-item" (click)="s=0">Ogólne</span>
+        <span class="left-item" (click)="s=3">Zarządzanie maga-<br>zynami i sprzętem</span>
+        <span class="left-item" (click)="s=2">Zarządzanie ludźmi<br>i grupami</span>
+        <span class="left-item" (click)="s=1">Dostęp do systemów<br>informatycznych</span>
+    </div>
+        <div class="flex column">
+            @if(s==0){
+                <label>Tryb konta:</label>
+                <select class="addPerms gray" #tryb (change)="check(tryb.value)">
+                    <option value=""> </option>
+                    <option value="nor">Normalne</option>
+                    <option value="bryg">Brygadzista</option>
+                    <option value="ogr">Ograniczone</option>
+                    <option value="ADMIN">Administrator</option>
+                </select>
+            <label>Zezwól na administrowanie swoim kontem: 
+                <label class="switch">
+                    <input [attr.checked]="dataService.employees[cid].outsiders" #outsiders type="checkbox" (change)="check(outsiders.value)">
+                    <span class="slider blue"></span>
+                </label>
+            </label>
+
+            <button class="btt" (click)="sqid=2">Zresetuj hasło</button>
+            }
+            @if(s==1){
+            <label>Zezwól na dostęp do VPN 
+                <label class="switch">
+                    <input [attr.checked]="dataService.employees[cid].outsiders" #outsiders type="checkbox" (change)="check(outsiders.value)">
+                    <span class="slider blue"></span>
+                </label>
+            </label>
+            <label>Zezwól na dostęp do SSH
+                <label class="switch">
+                    <input [attr.checked]="dataService.employees[cid].outsiders" #outsiders type="checkbox" (change)="check(outsiders.value)">
+                    <span class="slider blue"></span>
+                </label>
+            </label>
+            <label>Zezwól na dostęp do dysku
+                <label class="switch">
+                    <input [attr.checked]="dataService.employees[cid].outsiders" #outsiders type="checkbox" (change)="check(outsiders.value)">
+                    <span class="slider blue"></span>
+                </label>
+            </label>
+            }
+            @if(s==2){
+            <label>Zezwól na modyfikację grup, w których jest brygadzistą lub liderem
+                <label class="switch">
+                    <input [attr.checked]="dataService.employees[cid].outsiders" #outsiders type="checkbox" (change)="check(outsiders.value)">
+                    <span class="slider blue"></span>
+                </label>
+            </label>
+            <label>Zezwól na tworzenie grup
+                <label class="switch">
+                    <input [attr.checked]="dataService.employees[cid].outsiders" #outsiders type="checkbox" (change)="check(outsiders.value)">
+                    <span class="slider blue"></span>
+                </label>
+            </label>
+            <label>Zezwól na administrowanie kontami i czasem pracy członków swoich brygad: 
+                <label class="switch">
+                    <input [attr.checked]="dataService.employees[cid].outsiders" #outsiders type="checkbox" (change)="check(outsiders.value)">
+                    <span class="slider blue"></span>
+                </label>
+            </label>
+            <label>Zezwól na administrowanie kontami i czasem pracy członków grup, których jest kierownikiem: 
+                <label class="switch">
+                    <input [attr.checked]="dataService.employees[cid].outsiders" #outsiders type="checkbox" (change)="check(outsiders.value)">
+                    <span class="slider blue"></span>
+                </label>
+            </label>
+            <label>Zezwól na zarządzanie kartami pracowniczymi członków swoich brygad
+                <label class="switch">
+                    <input [attr.checked]="dataService.employees[cid].outsiders" #outsiders type="checkbox" (change)="check(outsiders.value)">
+                    <span class="slider blue"></span>
+                </label>
+            </label>
+            <label>Zezwól na zarządzanie kartami pracowniczymi członków grup, gdzie jest kierownikiem
+                <label class="switch">
+                    <input [attr.checked]="dataService.employees[cid].outsiders" #outsiders type="checkbox" (change)="check(outsiders.value)">
+                    <span class="slider blue"></span>
+                </label>
+            </label>
+            }
+            @if(s==3){
+            <label>Zezwól na zarządzanie magazynami, tam, gdzie jest kierownikiem obiektu (zmiana osoby, która wzięła przedmiot, godziny, zmiana praw dostępu do przedmiotu, przypisanie Strom TAGa, oznaczenie przedmiotu jako oddany/zabrany/skradziony)
+                <label class="switch">
+                    <input [attr.checked]="dataService.employees[cid].outsiders" #outsiders type="checkbox" (change)="check(outsiders.value)">
+                    <span class="slider blue"></span>
+                </label>
+            </label>
+            }
+        </div>
+    </div>
+}
+
+@if( sqid==4 ){
+    <div class="sqidGame">
+        <img class="game" src="./assets/sqid.png">
+        <img class="doll" src="./assets/sqiddoll.png">
+        <img class="loser" [attr.src]="dataService.employees[cid].img">
+        <div class="qt">
+            <p>Wyeliminować zawodnika<br>{{dataService.employees[cid].name}}?</p>
+            <div class="flex">
+                <button (click)="eliminate(cid)">예 <span class="micro">(tak)</span></button>
+                <button (click)="squidder(0, 0)">아니요 <span class="micro">(nie)</span></button>
+            </div>
+        </div>
+    </div>
+}
+
+
 <div class="add" (click)="dataService.addNewEmployee()">
     <span>DODAJ</span>
 </div>

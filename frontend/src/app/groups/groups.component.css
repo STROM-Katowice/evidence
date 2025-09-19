@@ -1,30 +1,29 @@
 .category{
-    display: inline-flex;
+    display: grid;
+    gap: 0.3cm;
     width: 100%;
+    grid-template-columns: repeat(auto-fit, minmax(9cm, 1fr));
 }
-h4{
-    font-size: 0.4cm;
-    color: #757474;
-    width:100%;
+.catName{
+    background-color: transparent;
+    font-size: 0.7cm;
+    color: #9e9e9e;
+    min-width: 5cm;
+    border-bottom: 2px solid #9e9e9e;
+    margin: 0.3cm 0 0.3cm 0;
+    width:calc(100% - 0.2cm);
 }
-.group{
-    width:5.5cm;
-    border-radius: 0.16cm;
-    margin: 0.1cm;
-    border: 2px solid #555555;
-    display: flex;
+
+.newGroup{
+    width: 1.25cm;
+    height: 1.25cm;
+    border: 2px solid #9e9e9e;
+    background-color: transparent;
+    cursor: pointer;
 }
-.group span{
-    width: 4.5cm;
-    padding: 0.2cm;
-    font-size: 0.35cm;
-}
-.group-color{
-    width:0.87cm;
-    height:0.87cm;
-    right:0;
-    border-radius: 0 0.13cm 0.13cm 0;
-}
-.members{
-    display: none;
+.newGroup::after{
+    content: '+';
+    font-size: 0.9cm;
+    top:-0.05cm; 
+    position: relative;
 }

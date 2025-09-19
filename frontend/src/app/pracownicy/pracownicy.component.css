@@ -1,4 +1,177 @@
 .container{
-    flex-direction: column;
-    padding: 2vw;
+    display: grid;
+    gap: 0.5cm;
+    grid-template-columns: repeat(auto-fit, minmax(calc(12cm + 48px), 1fr));
+    padding: 0.5cm;
+}
+.wrapper{
+    position: fixed;
+    left:50%;
+    top:  50%;
+    transform: translate(-50%, -50%);
+    width: 18cm;
+    height:14cm;
+    max-width: 95vw;
+    max-height: 95vh;
+    border: 2px solid #043164;
+    background-color: #000000;
+    padding:0.2cm;
+    
+}
+.wrapper input{
+    height:0.6cm;
+    border: 1px solid gray;
+
+}
+.d3{
+    display: grid;  
+    grid-template-columns: 5.5cm auto 4.5cm;
+    column-gap: 10px;
+    grid-template-rows: 0.7cm 0.7cm 0.7cm 0.7cm 0.7cm 0.7cm 0.7cm;
+}
+.photo-det{
+    height: 3.5cm;
+    width: 3.5cm;
+    object-fit: cover;
+    grid-row-start: 1;
+    grid-row-end: 7;
+    grid-column-start: 3;
+}
+
+.kolega{
+    border-radius: 2vh;
+    border: 3px solid #0e4583;
+    padding: 12px;
+    display: grid;
+    grid-template-columns: 3cm minmax(auto, 4.5cm) auto;
+    column-gap: 8px;
+    row-gap: 3px;
+    margin-bottom: 15px;
+    cursor: copy;
+}
+.kolega label{
+    width: 100%;
+    grid-column-start: 2;
+    grid-column-end: 4;
+    font-size: 0.4cm;
+}
+.photo{
+    height: 3cm;
+    width: 3cm;
+    object-fit: cover;
+    grid-row-start: 1;
+    grid-row-end: 6;
+}
+.notes{
+    grid-column-start: 2;
+    grid-column-end: 4;
+    resize: none;
+    height: 0.5cm;
+    border-bottom: 1px solid #d0d0d0;
+    margin-top: 8px;
+    margin-bottom: -3px;
+}
+
+.btt{
+    height: 1cm;
+}
+
+.btK{
+    background-color: #ee1477;
+    font-weight: bold;
+}
+
+.sqidGame, .RFID{
+    width: 54vh;
+    height: 44vh;
+    position: fixed;
+    top: 28vh;
+    left: calc(50vw - 27vh);
+    background-color: #ee1477;
+    border:4px solid #ff54a1;
+    text-align: center;
+}
+
+.RFID{
+    background-color: #ffffff;
+    border:4px solid #0a0040;
+}
+
+.RFID .btt{
+    min-width: 75%;
+}
+
+.game{
+    height: 10vh;
+    position: absolute;
+    bottom: 0;
+    right: 2vh;
+    
+}
+
+.doll{
+    height: 40vh;
+    position: absolute;
+    left: 0;
+}
+
+.loser{
+    height: 15vh;
+    width: 15vh;
+    object-fit: cover;
+    position: absolute;
+    left: 14.5vh;
+    top: 4vh;
+    z-index: -1;
+}
+
+.qt{
+    position: absolute;
+    left: 19vh;
+    top: 20vh;
+    font-size: 2vh;
+    color: #fff;
+}
+
+.qt button{
+    height: 4vh;
+    background-color: #ff54a1;
+    display: inline-block;
+    margin: 0.5vh;
+    color: #fff;
+    cursor: pointer;
+}
+
+.qt p{
+  padding: 0 0.5vh;  
+}
+
+.nImg{
+    grid-column-start: 2;
+    grid-column-end: 5;
+    font-size: 0.4cm;
+}
+
+.nImg input{
+    height: 0.75cm;
+}
+
+input{
+    color: #000000;
+}
+
+.events{
+    min-height: 5cm;
+    grid-column-start: 1;
+    grid-column-end: 4;
+}
+
+.randpass{
+    min-width: 8cm;
+}
+.addPerms, .addPerms *{
+    width: 5cm;
+    font-size: 0.4cm;
+    color: #000000;
+    font-weight: bold;
 }
