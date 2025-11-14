@@ -9,8 +9,9 @@ export let changed=1;
 let sym=0;
 
 try{
-    await client.connectRTUBuffered("/tty/USB0", { baudRate: 9600 });
+    await client.connectRTUBuffered("/dev/ttyUSB0", { baudRate: 9600 });
 }catch(e){
+    console.log(e);
     console.log("Magistala MODBUS nie podłączona prawidłowo!\nSerwer działa w trybie symulacji!");
     for(const slave of slaves) slave.status=404;
     sym=1;
@@ -19,13 +20,13 @@ try{
 //start
 x();
 async function x(){
-    slaves==await getSlaves(location);
+    slaves=await getSlaves(location);
     if(sym>0) return;
     console.log("Liczba slavów w DB: "+slaves.length);
     let time=0;
     while(1){
         time=Date.now();
-        await discoverNew();
+        //await discoverNew();
         for(const slave of slaves){
             if(slave.status!=405 || time%50==0){ 
                 await ask(slave);
@@ -33,9 +34,10 @@ async function x(){
             }
         }
         const t=Date.now()-time;
-        const x=3000-t;
+        const x=10000-t;
+        console.log("Czas pętli: t="+t+"ms")
         if(x>0) await delay(x);
-        else console.log("Długi czas pętli! t="+t+"ms")
+        else console.log("()DŁUGI)")
     }
 }
 
@@ -43,9 +45,10 @@ async function readInputs(id){
     return await new Promise(async resolve => {
     try{
         client.setID(id);
-        const w=setTimeout(()=>{ resolve(7); }, 1200);
+        const w=setTimeout(()=>{ console.log("timeout"); resolve(7); }, 1200);
         let val=await client.readInputRegisters(8, 8);
         clearTimeout(w);
+        
         resolve(val.data);
     }catch(e){
         console.log("ERROR!!!!");
@@ -80,7 +83,7 @@ function panic(){
 
 async function ask(slave){
     const val=await readInputs(slave.mID);
-    if(val==8) panic(slave);
+    if(val==8) return;
     if(val==7){
         console.log("Timeout! mID="+slave.mID);
         slave.disfunctions++;
@@ -94,10 +97,11 @@ async function ask(slave){
         slave.status=100;       //TODO: wymyślić coś lepszegoz
         //changed=1;
     }
-    
+
     for(let i=0; i<8; i++){
+        val[i]=!val[i];
         if(slave.val[i]!=val[i]){
-            if(val[i]==0 ){                                     //BAJPAS, ZMIENIĆ
+            if(val[i]==1){                                     //BAJPAS, ZMIENIĆ
                 DB(`UPDATE items SET stamp=${Date.now()/1000}, owner="JAN SURMACZ" WHERE slaveID=${slave.uID} AND pos=${i+1}`);
             }
             slave.val[i]=val[i];
@@ -185,6 +189,7 @@ function insertDB(table, slave){
 
 async function getSlaves(location){
     const r=await DB(`SELECT * FROM slaves WHERE lID=${location}`);
+console.log(r);
     for(const el of r){
         el.status=100;
         el.disfunctions=0;

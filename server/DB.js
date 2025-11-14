@@ -13,6 +13,11 @@ export async function DB(query){
     });
     return resp;     
 }
+for(let i=0; i<3; i++){
+    for(let j=1; j<=8; j++){
+        DB(`INSERT INTO items (id, slaveID, pos, name, img, perms, stamp, owner, absence, tag) VALUES (null, ${306+i}, ${j}, '---', './assets/noimage.png', '["Jan Surmacz"]', 0, '', 7, null)`)
+    }
+}
 
 function SQLinjection(query){
     //TODO

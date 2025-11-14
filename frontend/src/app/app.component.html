@@ -1,5 +1,5 @@
 @if(dataService.getRoute()!="/login"){
-<div class="header">
+<!--<div class="header">
     <div class="menu_item" routerLink="" [class]="dataService.getRoute()=='/' ? 'bdBtmBlue' : ''">
         <span>Sprzęt</span>
     </div>
@@ -30,12 +30,12 @@
         @if(this.dataService.account.perms.includes("software") || this.dataService.account.perms.includes("WSZYSTKIE")){ <a href="#">Programy</a> }
         @if(this.dataService.account.perms.includes("dysk") || this.dataService.account.perms.includes("WSZYSTKIE")){ <a href="#">Dysk</a> }
         @if(this.dataService.account.perms.includes("vpn") || this.dataService.account.perms.includes("WSZYSTKIE")){ <a href="#">Dostęp do SSH</a> }
-        <!--@if(this.dataService.account.perms.includes("solar") || this.dataService.account.perms.includes("WSZYSTKIE")){ <a href="#">Zarządzanie solary</a> }-->
+        <!--@if(this.dataService.account.perms.includes("solar") || this.dataService.account.perms.includes("WSZYSTKIE")){ <a href="#">Zarządzanie solary</a> }--
         <a routerLink="ustawienia">Ustawienia</a>
         <button class="btt logout" (click)="logout()">Wyloguj się</button>
     </div>
     }
-</div>
+</div>-->
 }
 
 <router-outlet></router-outlet>

@@ -1,13 +1,16 @@
 
 .canvas{
-    margin: 0.5cm;
-    display: flex;
+  padding: 1cm 0.6cm 0 0.6cm;
+  display: flex;
+  width: calc(100vw - 7cm );
+  overflow: scroll;
 }
+
 .siteBar{
     display: flex;
     flex-direction: column;
     background-color: #030011;
-    min-height: calc(100vh - 0.9cm);
+    min-height: 100vh;
     width: 6.5cm;
     border-right: 1px solid #4e4e4e;
 }

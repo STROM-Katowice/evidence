@@ -59,7 +59,7 @@ app.post('/login', async (req, res) => {
         const newToken=getToken();
         await DB(`UPDATE employees SET token='${newToken}' WHERE name='${req.body.login}'`)
         //if OK
-        tokens.splice(indexOf(dat[0].token), 1)
+        tokens.splice(tokens.indexOf(dat[0].token), 1)
         tokens.push(newToken);
         res.send( { userData: dat[0], token: newToken } );
         return;
@@ -359,8 +359,8 @@ app.get('/qualifications', async (req, res) => {
 function selectImg(imgs){
     let possibles=[];
     for(const img of imgs){
-        const stringified=JSON.stringify(this.item.perms);
-        console.log(stringified);
+        //const stringified=JSON.stringify(this.item.perms);
+        //console.log(stringified);
         if(img.width<img.height*1.2 && img.width>img.height*0.8)
             possibles.push(img.url);
     }

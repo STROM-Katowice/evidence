@@ -15,7 +15,6 @@
 
 body{
   background-color: #1c1e31;
-  padding-top: 0.9cm;
 }
 .block{
   height:3vh;
@@ -92,10 +91,10 @@ input{
 .flex{
     display: flex;
     flex-direction: row;
-    gap:0.2cm;
 }
 
 .column{
+  display: flex;
   flex-direction: column;
 }
 
